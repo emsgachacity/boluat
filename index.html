@@ -35,7 +35,49 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* SIDEBAR NAVIGATION - HIỆN ĐẠI & TINH TẾ */
+        /* MOBILE HEADER - CHỈ HIỂN THỊ TRÊN ĐIỆN THOẠI */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            color: #ffffff;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 105;
+        }
+
+        .menu-toggle {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 15px;
+        }
+
+        /* SIDEBAR NAVIGATION */
         .sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -47,7 +89,8 @@
             overflow-y: auto;
             padding: 20px 10px;
             box-shadow: 5px 0 25px rgba(0,0,0,0.15);
-            z-index: 100;
+            z-index: 110;
+            transition: transform 0.3s ease;
         }
 
         .sidebar::-webkit-scrollbar {
@@ -146,6 +189,23 @@
         .standalone-link:hover {
             background-color: rgba(255, 255, 255, 0.1) !important;
             transform: none !important;
+        }
+
+        /* MOBILE OVERLAY BACKGROUND */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 108;
+            backdrop-filter: blur(2px);
+        }
+
+        .sidebar-overlay.show {
+            display: block;
         }
 
         /* MAIN CONTENT AREA */
@@ -453,22 +513,56 @@
             font-size: 0.9rem;
         }
 
-        /* RESPONSIVE DESIGN */
+        /* RESPONSIVE DESIGN - TỐI ƯU CHO ĐIỆN THOẠI */
         @media (max-width: 1024px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; padding: 15px; }
-            .sidebar-brand { border-bottom: none; margin-bottom: 0; padding-bottom: 5px; }
-            .main-content { width: 100%; margin-left: 0; padding: 25px; }
+            
+            .mobile-header { display: flex; }
+            
+            .sidebar { 
+                transform: translateX(-100%); 
+                height: 100vh; 
+                position: fixed; 
+                top: 0; 
+                left: 0; 
+                width: var(--sidebar-width);
+                z-index: 115;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content { 
+                width: 100%; 
+                margin-left: 0; 
+                padding: 85px 15px 25px 15px; /* Thêm padding-top 85px để không bịMobile Header che mất nội dung */
+            }
+
             .sidebar-menu li a:hover { transform: none; padding-left: 20px !important; }
-            section { padding: 25px; }
-            section h2 { margin: -25px -25px 20px -25px; padding: 15px 25px; }
+            section { padding: 25px 15px; }
+            section h2 { margin: -25px -15px 20px -15px; padding: 15px 20px; font-size: 1.15rem; }
+            .header-banner { padding: 25px 20px; }
+            .header-banner h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Mobile Header (Chỉ hiện trên điện thoại) -->
+    <header class="mobile-header">
+        <button class="menu-toggle" id="menuBtn">
+            <!-- Biểu tượng 3 gạch Menu bằng SVG gọn nhẹ -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="mobile-title">Luật Gacha City EMS</div>
+    </header>
+
+    <!-- Màn mờ che phía sau khi mở menu điện thoại -->
+    <div class="sidebar-overlay" id="overlay"></div>
+
     <!-- Sidebar Navigation -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <img src="https://lh3.googleusercontent.com/d/1qAEvBWzZvvgOY9dbXzgygQ8ngOgtISDx" alt="Gacha City EMS Logo" class="sidebar-logo">
             <div class="sidebar-brand-text">Bộ Luật<br>Gacha City</div>
@@ -713,10 +807,10 @@
                 <p><strong>2. Nguyên tắc cứu chữa:</strong> Khi đến hiện trường, nếu có nhiều bệnh nhân: Ưu tiên cấp cứu những người gần nhất để tối ưu thời gian, phối hợp với các bác sĩ khác để xử lý nhanh và hiệu quả.</p>
                 
                 <div class="alert-box alert-danger">
-                    <strong>NGUYÊN TẮC CẤM THIÊN VỊ:</strong> Không được lựa chọn bệnh nhân theo cảm tính. Không ưu tiên người quen, thành viên cùng nhóm/gang. Không phân biệt bất kỳ cá nhân nào. Mọi hành vi thiên vị sẽ bị xử lý nghiêm khắc như hành vi Bác Sĩ Bẩn.
+                    <strong>TUYỆT ĐỐI CẤM:</strong> Không được lựa chọn bệnh nhân theo cảm tính. Không ưu tiên người quen, thành viên cùng nhóm/gang. Không phân biệt bất kỳ cá nhân nào. Mọi hành vi thiên vị sẽ bị xem là vi phạm nghiêm trọng – Bác sĩ bẩn, làm mất tính trung lập của bệnh viện.
                 </div>
 
-                <p><strong>3. Nguyên tắc trung lập ⚖️:</strong> Bác sĩ có trách nhiệm cứu chữa tất cả mọi người như nhau, không đứng về bất kỳ tổ chức nào trong giao tranh. Giữ vững nguyên tắc cốt lõi: Trung lập – Công bằng – Chuyên nghiệp.</p>
+                <p><strong>3. Nguyên tắc trung lập ⚖️:</strong> Bác sĩ có trách nhiệm cứu chữa tất cả mọi người như nhau. Không đứng về bất kỳ tổ chức nào trong giao tranh. Giữ vững nguyên tắc cốt lõi: Trung lập – Công bằng – Chuyên nghiệp.</p>
                 <p><strong>4. Quyền hạn của bác sĩ tại hiện trường:</strong> Tại khu vực giao tranh, bác sĩ có toàn quyền quyết định việc cứu chữa. Không cá nhân hay tổ chức nào được cản trở, gây khó khăn cho bác sĩ trong quá trình làm nhiệm vụ.</p>
                 <p><strong>5. Khuyến nghị sử dụng bodycam 🎥:</strong> Khuyến khích bác sĩ sử dụng bodycam khi làm nhiệm vụ tại khu vực giao tranh / khu vực bẩn nhằm khử nhiễu tranh cãi, khiếu nại và làm bằng chứng bảo vệ bản thân.</p>
             </section>
@@ -731,14 +825,14 @@
                 <p><strong>1. Điều kiện áp dụng khử khuẩn:</strong> Việc khử khuẩn chỉ được tiến hành khi số lượng bệnh nhân quá đông và kéo dài liên tục, không thể xác định thời điểm giảm tải trong thời gian tới và nhân sự trong ca không đủ khả năng đáp ứng xử lý kịp thời.</p>
                 
                 <div class="alert-box alert-warning">
-                    <strong>QUAN TRỌNG:</strong> Trường hợp lượng bệnh nhân tăng đột biến trong thời gian ngắn (mang tính thời điểm) thì ca trực vẫn phải cố gắng xử lý như bình thường, không áp dụng khử khuẩn. Bác sĩ cần chủ động trấn an, giải thích và hướng dẫn cư dân.
+                    <strong>QUAN TRỌNG:</strong> Trường hợp lượng bệnh nhân tăng đột biến trong thời gian ngắn (mang tính thời điểm) → Ca trực vẫn phải cố gắng xử lý và cứu chữa như bình thường, không áp dụng khử khuẩn.
                 </div>
 
                 <p><strong>2. Thẩm quyền quyết định:</strong> Bác sĩ trưởng trong ca trực chịu trách nhiệm đánh giá và quyết định. Trường hợp BST vắng mặt, người có chức vụ cao nhất trong ca sẽ thay thế.</p>
-                <p><strong>3. Thời gian khử khuẩn:</strong> Áp dụng theo từng mức độ: 30 phút / 1 giờ / 2 giờ. Trong thời gian này, các bác sĩ vẫn duy trì vị trí trực và có thể hỗ trợ cư dân nếu có vấn đề cấp bách xảy ra.</p>
-                <p><strong>4. Mở lại hoạt động:</strong> Sau thời gian khử khuẩn, đánh giá lại tình hình thực tế, nếu đã đảm bảo khả năng vận hành thì mở cửa bệnh viện trở lại.</p>
-                <p><strong>5. Nguyên tắc áp dụng ⚠️:</strong> Khử khuẩn là biện pháp tạm thời, không được lạm dụng. Tuyệt đối không sử dụng thời gian khử khuẩn để nghỉ ngơi, làm việc cá nhân. Không được lấy lý do thiếu nhân sự hoặc ca trực ít người để tiến hành khử khuẩn khi chưa thực sự quá tải.</p>
-                <p><strong>6. Trách nhiệm:</strong> Người ra quyết định khử khuẩn phải chịu trách nhiệm hoàn toàn về tính hợp lý của quyết định. Trường hợp lạm dụng hoặc áp dụng sai quy định sẽ bị sa thải hoặc kỷ luật nặng.</p>
+                <p><strong>3. Thời gian khử khuẩn:</strong> Áp dụng theo từng mức độ: 30 phút / 1 giờ / 2 giờ. Trong thời gian này, các bác sĩ vẫn duy trì vị trí trực và trực như những ca bình thường. Ngoài ra có thể hỗ trợ cư dân nếu có vấn đề xảy ra.</p>
+                <p><strong>4. Mở lại hoạt động:</strong> Sau thời gian khử khuẩn: Đánh giá lại tình hình thực tế. Nếu đã đảm bảo khả năng vận hành → Mở cửa bệnh viện trở lại.</p>
+                <p><strong>5. Nguyên tắc áp dụng ⚠️:</strong> Khử khuẩn là biện pháp tạm thời, không được lạm dụng dưới bất kỳ hình thức nào. Tuyệt đối không sử dụng thời gian khử khuẩn để nghỉ ngơi, ngồi chơi hoặc làm việc cá nhân. Quyết định khử khuẩn phải dựa trên tình trạng bệnh nhân thực tế, không dựa trên cảm tính. Không được lấy lý do thiếu nhân sự hoặc ca trực ít người để tiến hành khử khuẩn.</p>
+                <p><strong>6. Trách nhiệm & xử lý vi phạm:</strong> Người ra quyết định khử khuẩn phải chịu trách nhiệm hoàn toàn về tính hợp lý của quyết định. Trường hợp lạm dụng hoặc áp dụng sai quy định sẽ bị xem xét và xử lý theo nội quy bệnh viện.</p>
             </section>
         </div>
 
@@ -746,18 +840,22 @@
         <div id="quy-dinh-cu-dan-sec" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH CƯ DÂN</h2>
-                <h3>🧍 QUY ĐỊNH CƯ DÂN</h3>
-                <p>Đối với Toàn bộ Cư Dân khi đến y tế, <strong>NGHIÊM CẤM TUYỆT ĐỐI</strong> các hành vi sau:</p>
-                <ul class="list-unstyled">
-                    <li>❌ Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ.</li>
-                    <li>❌ Cản trở việc cứu người của Bác Sĩ.</li>
-                    <li>❌ Cướp / Trộm và Sử dụng phương tiện xe EMS.</li>
-                    <li>❌ Tự ý điều khiển phương tiện vào khuôn viên sân bệnh viện.</li>
-                    <li>❌ Dùng lời lẽ / hành vi toxic, xúc phạm không đúng chuẩn mực với Bác Sĩ.</li>
-                    <li>❌ Giả mạo nhân viên EMS hoặc tự ý vào đàm 911 của bệnh viện.</li>
-                    <li>❌ Gây rối / Ẩu đả với Cư Dân khác hoặc đeo mặt nạ trong khuôn viên BV.</li>
-                </ul>
-                <p>Nếu Cư Dân ngất ở những nơi khuất, BS không thể tìm thấy, hãy chụp hình vị trí gửi vào kênh hỗ trợ y tế để được giúp đỡ. Bất kỳ cư dân nào có hành vi sai phạm, bác sĩ có quyền từ chối chữa trị và bàn giao cho cơ quan chức năng.</p>
+                <div class="sub-card">
+                    <p>Đối với Cư Dân, CẤM TUYỆT ĐỐI những hành vi sau: 
+                    - Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ 
+                    - Cản trở việc cứu người của Bác Sĩ 
+                    - Cướp / Trộm và Sử dụng xe EMS 
+                    - Chạy xe vào khu vực BV 
+                    - Dùng lời lẽ / hành vi toxic, không đúng chuẩn mực với Bác Sĩ 
+                    - Giả mạo nhân viên EMS 
+                    - Vào đàm 911 của BV (trừ PD khi có tình huống cần giúp đỡ), Cư Dân có thể vào phòng trực Bác Sĩ tại ứng dụng đỉnh cao của GachaCity để được hỗ trợ. 
+                    - Gây rối / Ẩu đả với Cư Dân khác trong khuôn viên BV 
+                    - Đeo mặt nạ trong khuôn viên BV 
+
+                    Nếu Cư Dân ngất ở những nơi BS không thể tìm thấy, khó tiếp cận, hãy chụp hình vị trí và gửi vào kênh "hỗ-trợ-y-tế" để được giúp đỡ tốt nhất có thể. 
+
+                    Bất kỳ Cư Dân nào có hành vi sai phạm, các Bác Sĩ có quyền từ chối chữa trị đến khi giải quyết xong tình huống hoặc xử lý theo luật TP và BV.</p>
+                </div>
             </section>
         </div>
 
@@ -896,13 +994,13 @@
                 
                 <p><strong>2. XIN VÀO TRỄ</strong>: Làm đơn tại kênh "⏰-xin-vào-trễ" trước ca trực ít nhất 10 phút. Đơn không được chỉnh sửa và phải tag đúng BST ca trực đó duyệt. Mẫu đơn bao gồm: Tên, Ngày, Ca trực, Thời gian trễ, Lý do rõ ràng.</p>
                 
-                <p><strong>3. XIN VẮNG CA</strong>: Làm đơn trước ca trực ít nhất 1 tiếng tại kênh "🛌-xin-vắng". Nếu vắng đột xuất dưới 1 tiếng phải tự chủ động tìm người trực thay thế. Xin vắng vì lý do OOC nhưng vẫn online đi chơi trong thành phố sẽ bị tính phạt Vắng Không Phép. Xin vắng 3 lần liên tiếp cũng sẽ nhận án phạt kỷ luật.</p>
+                <p><strong>3. XIN VẮNG CA</strong>: Làm đơn trước ca trực ít nhất 1 tiếng tại kênh "🛌-xin-vắng". Nếu vắng đột xuất dưới 1 tiếng phải tự chủ động tìm người trực thay thế. Xin vắng vì lý do OOC nhưng vẫn thấy trong Thành Phố sẽ bị tính phạt Vắng Không Phép. Xin vắng 3 lần liên tiếp cũng sẽ nhận án phạt kỷ luật.</p>
                 
                 <p><strong>4. XIN VẮNG DÀI HẠN</strong>: Làm đơn trước ít nhất 1 ngày tại kênh "🛌-xin-vắng". Thời gian vắng DH tối đa là 30 ngày. Khi vắng dài hạn sẽ bị thu role tạm thời trong thành phố để bảo mật, khi quay lại làm việc hãy báo Thư ký/BGĐ cấp lại role.</p>
                 
                 <p><strong>5. XIN ĐỔI CA TRỰC CHÍNH</strong>: Làm đơn tại kênh "📇-xin-đổi-ca-trực" tag Thư ký và BGĐ phê duyệt. Ca trực chính mới sẽ chính thức được áp dụng vào Thứ 2 của tuần kế tiếp sau khi đơn được thẩm định thông qua.</p>
                 
-                <p><strong>6. XIN RỜI NGÀNH</strong>: Chủ động liên hệ trực tiếp với Ban Giám Đốc để được hướng dẫn làm các thủ tục bàn giao tài sản và nghỉ việc đúng quy trình.</p>
+                <p><strong>6. XIN RỜI NGÀNH</strong>: Cần trực tiếp liên hệ Ban Giám Đốc để được hướng dẫn làm các thủ tục bàn giao tài sản và nghỉ việc đúng quy trình.</p>
             </section>
         </div>
 
@@ -913,12 +1011,12 @@
                 <h3>📝 QUY CÁCH ĐIỂM DANH THỦ CÔNG</h3>
                 <p>Trong trường hợp hệ thống yêu cầu điểm danh thủ công, toàn bộ bác sĩ phải nghiêm túc chấp hành quy chuẩn:</p>
                 <ul>
-                    <li>Tuyệt đối không chỉnh sửa tin nhắn điểm danh sau khi gửi.</li>
-                    <li>Không được phép trực bù ca hoặc điểm danh dồn nhiều ca trực vào chung 1 tin nhắn.</li>
-                    <li>Nghiêm cấm hành vi điểm danh hộ, điểm danh khống cho người không có mặt trực thực tế trong ca.</li>
+                    <li>Không chỉnh sửa nội dung tin nhắn điểm danh sau khi đã gửi.</li>
+                    <li>Không được phép trực bù ca hoặc điểm danh dồn nhiều ca trực vào chung một tin nhắn.</li>
+                    <li>Nghiêm cấm hoàn toàn hành vi điểm danh hộ hoặc khống ca trực cho người không có mặt làm việc.</li>
                     <li>Các Bác sĩ không ngồi trong phòng trực Discord làm việc ➡️ Không được quyền điểm danh đơn ca trực đó.</li>
-                    <li>Tin nhắn điểm danh ca trực phải do BST ca đó hoặc Bác sĩ quản ca thực hiện.</li>
-                    <li>Hạn chót gửi điểm danh lên hệ thống là 24 giờ kể từ khi ca trực đó kết thúc, quá hạn đơn ca trực sẽ bị hủy bỏ.</li>
+                    <li>Tin nhắn điểm danh ca trực phải do chính BST ca đó hoặc Bác sĩ quản ca thực hiện gửi lên.</li>
+                    <li>Hạn chót gửi điểm danh lên hệ thống là 24 giờ kể từ khi ca trực đó kết thúc, quá hạn ca trực sẽ bị hủy bỏ.</li>
                 </ul>
             </section>
         </div>
@@ -994,7 +1092,7 @@
                 <div class="media-container">
                     <img src="https://lh3.googleusercontent.com/d/1T4_eedgdWRLn7ChXwWly_HP3osvBH0Kr" class="media-img" alt="Bệnh Nhân Cướp Túi Mù">
                     <div class="media-caption" style="border-left-color: var(--accent-color); background: #fef2f2;">
-                        <span style="color: var(--accent-color); font-weight: 800; font-size: 1.1rem; display:block; margin-bottom:5px;">⚠️ ĐẶC ĐIỂM NHẬN DẠNG ĐỐI TƯỢNG CƯỚP TÚI MÙ:</span>
+                        <span style="color: var(--accent-color); font-weight: 800; font-size: 1.1rem; display:block; margin-bottom:5px;">🛍️ ĐẶC ĐIỂM NHẬN DẠNG ĐỐI TƯỢNG CƯỚP TÚI MÙ:</span>
                         - Bệnh nhân (BN) có hành vi cố tình mang mặt nạ che giấu danh tính.<br>
                         - BN đang tàng trữ hoặc cầm nắm vũ khí nguy hiểm trên tay.<br>
                         - BN có xách kèm theo các túi xách lạ, túi vải đựng đồ cướp đoạt...
@@ -1225,36 +1323,50 @@
 
     </main>
 
-    <!-- KỊCH BẢN ĐIỀU KHIỂN CHUYỂN TAB THÔNG MINH -->
+    <!-- INTERACTION SCRIPTS -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const links = document.querySelectorAll(".sidebar-link");
             const tabs = document.querySelectorAll(".tab-content");
+            const sidebar = document.getElementById("sidebar");
+            const menuBtn = document.getElementById("menuBtn");
+            const overlay = document.getElementById("overlay");
 
+            // Kịch bản chuyển đổi Tab
             links.forEach(link => {
                 link.addEventListener("click", function(e) {
                     e.preventDefault();
                     
-                    // 1. Gỡ trạng thái active của menu cũ
                     links.forEach(l => l.classList.remove("active"));
-                    // Đặt active cho mục vừa bấm
                     this.classList.add("active");
 
-                    // 2. Lấy ID của tab cần mở
                     const targetTabId = this.getAttribute("data-target");
-
-                    // 3. Ẩn tất cả các tab nội dung cũ
                     tabs.forEach(tab => tab.classList.remove("active-tab"));
                     
-                    // 4. Hiển thị duy nhất tab đích
                     const targetTab = document.getElementById(targetTabId);
                     if(targetTab) {
                         targetTab.classList.add("active-tab");
                     }
                     
-                    // Tự động cuộn nhẹ nhàng lên đầu nội dung cho dễ nhìn
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    // Trên điện thoại, tự động đóng menu lại sau khi chọn mục xong
+                    if (window.innerWidth <= 1024) {
+                        sidebar.classList.remove("open");
+                        overlay.classList.remove("show");
+                    }
                 });
+            });
+
+            // Kịch bản Đóng / Mở Menu rút gọn trên điện thoại
+            menuBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                overlay.classList.toggle("show");
+            });
+
+            overlay.addEventListener("click", () => {
+                sidebar.classList.remove("open");
+                overlay.classList.remove("show");
             });
         });
     </script>
