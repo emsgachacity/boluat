@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Luật Bệnh Viện - Gacha City EMS</title>
+    <style>
+        :root {
+            --primary-color: #5d00b3;
+            --primary-dark: #22004d;
+            --accent-color: #b30000;
+            --text-color: #2c3e50;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --sidebar-width: 300px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* TỐI ƯU SIDEBAR - SIÊU KHÍT DÒNG, HIỆN ĐẠI & GỌN GÀNG */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            color: #ffffff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 15px 8px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        /* Custom thanh cuộn tinh tế mảnh mai */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+        }
+
+        /* BRAND KHU VỰC LOGO + TÊN BỆNH VIỆN */
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 10px 12px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 10px;
+        }
+
+        .sidebar-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px;
+        }
+
+        .sidebar-brand-text {
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .sidebar-menu li {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* CẬP NHẬT: IN ĐẬM TẤT CẢ DANH MỤC CHÍNH Ở MENU BÊN TRÁI */
+        .menu-category {
+            font-size: 0.8rem;
+            font-weight: 800; /* Tăng độ đậm lên tối đa */
+            color: rgba(255, 255, 255, 0.7); /* Làm sáng chữ hơn giúp dễ đọc */
+            letter-spacing: 1px;
+            padding: 12px 10px 4px 10px !important;
+            margin-top: 8px !important;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Thêm gạch chân mờ phân chia */
+            padding-bottom: 2px !important;
+        }
+
+        /* Các liên kết dòng con - Khít dòng tuyệt đối (padding 3px) */
+        .sidebar-menu li a {
+            display: block;
+            padding: 3px 12px 3px 20px !important;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin: 1px 0 !important;
+            transition: all 0.15s ease-in-out;
+            position: relative;
+        }
+
+        /* Hiệu ứng Hover đẩy nhẹ chữ tạo cảm giác mượt mà */
+        .sidebar-menu li a:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        /* Trạng thái đang xem mục đó (Active) */
+        .sidebar-menu li a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Thanh dọc định vị nhỏ tinh tế đứng trước mục active */
+        .sidebar-menu li a.active::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 10px;
+            background-color: #ffffff;
+            border-radius: 2px;
+        }
+
+        /* Các link độc lập như Home, Quy định cư dân,... */
+        .standalone-link {
+            font-weight: 800 !important; /* Đảm bảo in đậm rõ nét */
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px !important;
+            margin-top: 8px !important;
+            margin-bottom: 4px !important;
+            border-radius: 4px;
+            border-left: 3px solid #d8b4fe;
+        }
+        
+        .standalone-link:hover {
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            transform: translateX(0) !important;
+            padding-left: 15px !important;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            width: calc(100% - var(--sidebar-width));
+            max-width: 1200px;
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(93, 0, 179, 0.2);
+        }
+
+        .header-banner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-banner p {
+            color: #e2cbff;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            white-space: normal;
+        }
+
+        .header-banner .banner-note {
+            color: #fca5a5;
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 15px;
+            margin-bottom: 0;
+        }
+
+        /* Section Cards */
+        section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            scroll-margin-top: 30px;
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+
+        .sub-section {
+            scroll-margin-top: 30px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin: 20px 0 10px 0;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        p, ul, ol {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #475569;
+            white-space: pre-line;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            white-space: normal;
+        }
+
+        strong {
+            color: #0f172a;
+        }
+
+        /* Bố cục Media */
+        .media-container {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0 20px 0;
+            text-align: center;
+        }
+
+        .media-img {
+            display: block;
+            width: 100%;
+            max-width: 750px;
+            height: auto;
+            margin: 0 auto 12px auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #e2e8f0;
+        }
+
+        .media-caption {
+            font-size: 1.05rem; 
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 12px 18px;
+            background: #f3e8ff; 
+            border-radius: 6px;
+            border-left: 5px solid var(--primary-color); 
+            font-weight: bold; 
+            text-align: left;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 750px;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.02);
+        }
+
+        .media-caption.text-danger-strong {
+            color: #b30000;
+            background: #fee2e2; 
+            border-left-color: #b30000;
+            font-size: 1.1rem;
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+
+        .box {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid;
+        }
+
+        .box-danger {
+            background-color: #fee2e2;
+            border-left-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .box-note {
+            background-color: #fef9c3;
+            border-left-color: #eab308;
+            color: #713f12;
+        }
+
+        /* Uniforms Layout */
+        .uniform-gender-block {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .uniform-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .uniform-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .uniform-details {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .uniform-details li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #f1f5f9;
+        }
+
+        .uniform-placeholder-text {
+            display: block;
+            padding: 15px;
+            background: #f1f5f9;
+            border: 1px dashed #cbd5e1;
+            color: #64748b;
+            font-style: italic;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; padding: 15px; }
+            .sidebar-brand { border-bottom: none; margin-bottom: 0; padding-bottom: 5px; }
+            .main-content { width: 100%; margin-left: 0; padding: 20px; }
+            .sidebar-menu li a:hover { transform: translateX(0); padding-left: 20px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <img src="https://lh3.googleusercontent.com/d/1qAEvBWzZvvgOY9dbXzgygQ8ngOgtISDx" alt="Gacha City EMS Logo" class="sidebar-logo">
+            <div class="sidebar-brand-text">Bộ Luật<br>Gacha City</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#banner" class="standalone-link">Home</a></li>
+            
+            <li class="menu-category">QUY ĐỊNH BỆNH VIỆN</li>
+            <li><a href="#ngoai-ca-truc">Ngoài Ca Trực</a></li>
+            <li><a href="#truoc-trong-ca">Trước và Trong Ca Trực</a></li>
+            <li><a href="#bac-si-ban">Hành Vi "BÁC SĨ BẨN"</a></li>
+            
+            <li class="menu-category">QUY ĐỊNH BÁC SĨ</li>
+            <li><a href="#no-hoa-don">NỢ HÓA ĐƠN</a></li>
+            <li><a href="#doi-voi-pd">ĐỐI VỚI PD</a></li>
+            <li><a href="#giao-tiep">VẤN ĐỀ GIAO TIẾP</a></li>
+            <li><a href="#au-da-vung-ban">ẤU ĐẢ / KHU VỰC BẨN</a></li>
+            <li><a href="#khu-khuan">KHỬ KHUẨN BV</a></li>
+            
+            <li><a href="#quy-dinh-cu-dan-sec" class="standalone-link">QUY ĐỊNH CƯ DÂN</a></li>
+            
+            <li class="menu-category">ÁN PHẠT BỆNH VIỆN</li>
+            <li><a href="#an-phat-bac-si">ĐỐI VỚI BÁC SĨ</a></li>
+            <li><a href="#an-phat-cu-dan">ĐỐI VỚI CƯ DÂN</a></li>
+            
+            <li class="menu-category">THỦ TỤC HÀNH CHÍNH</li>
+            <li><a href="#thu-tuc">THỦ TỤC</a></li>
+            
+            <li><a href="#diem-danh-sec" class="standalone-link">QUY CÁCH ĐIỂM DANH</a></li>
+            
+            <li class="menu-category">KHU VỰC VÀ TRANG PHỤC</li>
+            <li><a href="#khu-vuc-cap-cuu">KHU VỰC CẤP CỨU</a></li>
+            <li><a href="#khu-vuc-cam-giao-tranh">KHU VỰC CẤM GIAO TRANH TẠI BV</a></li>
+            <li><a href="#khu-vuc-nghe-ban">KHU VỰC NGHỀ BẨN</a></li>
+            <li><a href="#benh-nhan-cuop-tui-mu">BỆNH NHÂN CƯỚP TÚI MÙ</a></li>
+            <li><a href="#nhan-dien-dong-phuc">NHẬN DIỆN ĐỒNG PHỤC</a></li>
+            
+            <li class="menu-category">CHÍNH SÁCH VÀ QUYỀN LỢI EMS</li>
+            <li><a href="#chinh-sach-ho-tro">CHÍNH SÁCH HỖ TRỢ BV</a></li>
+            <li><a href="#quyen-loi-kpi">QUYỀN LỢI VÀ KPI</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div id="banner" class="header-banner">
+            <h1>BỘ LUẬT BỆNH VIỆN GACHA CITY</h1>
+            <p>Bộ luật này do BQL bệnh viện soạn thảo và đã được tòa thị chính thông qua.</p>
+            <p>Tất cả bác sĩ và cư dân cần đọc kỹ để nắm rõ các quy định nhằm tránh những tình huống không mong muốn.</p>
+            <p class="banner-note">*** Lưu ý: Luật sẽ luôn được cập nhật để phản ánh tình hình thực tế của bệnh viện và thành phố. ***</p>
+        </div>
+
+        <!-- ==================== QUY ĐỊNH BỆNH VIỆN ==================== -->
+        <section id="quy-dinh-benh-vien">
+            <h2>QUY ĐỊNH BỆNH VIỆN</h2>
+            
+            <div id="ngoai-ca-truc" class="sub-section">
+                <h3>Ngoài Ca Trực</h3>
+                <p>Bác Sĩ (BS) ngoài ca trực sẽ là Cư Dân bình thường. 
+
+                BS ngoài ca trực TUYỆT ĐỐI KHÔNG sử dụng các chức năng của Bác Sĩ (Gửi Hoá Đơn, Vác Xác, Chữa Trị, Bỏ Bệnh Nhân Lên Giường,...). 
+
+                BS KHÔNG ON/OFF DUTY BẤT THƯỜNG khi không có lí do chính đáng, với bất kỳ việc cần sử dụng chức năng EMS để phục vụ cho mục đích cá nhân phải có sự cho phép của Cấp Quản Lý BS trở lên. 
+
+                Các vật dụng thuộc ban ngành EMS phải được bảo quản và cất vào tủ đồ cá nhân BV khi đã hết ca trực, Khi BS bị PD kiểm tra hành chính và phát hiện đồ ban ngành sẽ bị tịch thu và báo lại với BQL BV để xử phạt theo luật BV 
+
+                BV không cấm BS "làm nghề bẩn" (đào quặng bẩn, trộm biển báo,...) khi thoả mãn những điều kiện sau: 
+
+                - Trước khi vào ca trực hoặc sau khi kết thúc ca trực 30 phút, BS có thể đi "làm nghề bẩn" 
+                - Khi làm bẩn, TUYỆT ĐỐI KHÔNG chạy vào BV để giả vờ đang trong ca / trốn tránh tình huống 
+                - Các vật phẩm bẩn TUYỆT ĐỐI KHÔNG bỏ vào tủ đồ cá nhân tại BV 
+                - Khi BS bị PD bắt và phát hiện đồ ban ngành sẽ bị tịch thu và trả lại cho BV cũng như xử phạt theo luật PD và BV 
+
+                Bác Sĩ có thể "làm nghề bẩn" nhưng không được trở thành "Bác Sĩ Bẩn", đây là 2 khái niệm khác nhau, các BS phải đặc biệt lưu ý vấn đề này để phân biệt cũng như tránh vi phạm.</p> 
+            </div>
+
+            <div id="truoc-trong-ca" class="sub-section">
+                <h3>Trước và Trong Ca Trực</h3>
+                <p><strong>1. Quy định trước ca trực</strong> 
+
+                Bác sĩ phải có mặt tại bệnh viện trước ca trực tối thiểu 10 phút 
+
+                Bác sĩ phải vào Phòng trực Bác Sĩ và Đàm 911 chuẩn bị vào ca 
+
+                Thời gian này dùng để: 
+
+                Nhận bàn giao từ ca trước 
+
+                Ổn định vị trí, chuẩn bị trang thiết bị 
+
+                Phối hợp cùng Bác sĩ trưởng trong việc phân bổ nhân sự 
+
+                Đảm bảo sẵn sàng hỗ trợ ngay khi cần, tránh gián đoạn ca trực 
+
+                Dùng lệnh /dutyambulance để ON/OFF DUTY 
+
+                <strong>2. Quy định trong ca trực</strong> 
+
+                📌 Về tác phong & kỷ luật: 
+
+                Phải OFF DUTY khi không trong ca trực 
+
+                Không được phép treo DUTY dưới mọi hình thức 
+
+                Bác sĩ phải mặc đúng đồng phục theo đúng chức vụ khi làm việc 
+
+                Giữ tác phong nghiêm chỉnh, ngôn từ lịch sự 
+
+                Luôn đảm bảo hình ảnh chuyên nghiệp của bệnh viện 
+
+                📌 Về trách nhiệm công việc: 
+
+                Tuân thủ đúng giờ trực và vị trí được phân công 
+
+                Tuân thủ các quy định của BV và điều phối của Bác Sĩ Trưởng / Bác Sĩ Quản Ca 
+
+                Xử lý yêu cầu bệnh nhân trong vòng 10 phút kể từ khi có tín hiệu (E) 
+
+                Trường hợp không tìm thấy bệnh nhân: 
+
+                Chụp lại đơn 
+
+                Báo về kênh hỗ trợ y tế để xử lý 
+
+                Tag momo của cư dân dựa vào bảng tín hiệu 
+
+                📌 Về xử lý tình huống: 
+
+                Không tham gia giao tranh, chỉ phòng vệ khi cần thiết 
+
+                Tại khu vực bẩn (trong bán kính 1 minimap), bắt buộc báo PD để phối hợp xử lý 
+
+                Nếu bệnh nhân cầm vật lạ, yêu cầu /propfix trước khi xử lý 
+
+                📌 Về phương tiện: 
+
+                Không sử dụng xe EMS cho mục đích cá nhân 
+
+                After khi sử dụng, phải cất xe đúng nơi quy định 
+
+                Nếu không thể cất xe, hoặc xe bị hỏng giữa đường, vào Đàm 113 báo PD qua giam xe giúp. 
+
+                Trường hợp gây tai nạn, phải dừng lại giải quyết, không bỏ đi 
+
+                Nghiêm cấm phóng nhanh vượt ẩu, đi sai làn đường</p> 
+            </div>
+
+            <div id="bac-si-ban" class="sub-section">
+                <h3>Hành Vi "BÁC SĨ BẨN"</h3>
+                <p>"Bác Sĩ Bẩn" (BSB) là gì? 
+                - Bác Sĩ Bẩn (BSB) là Bác sĩ dùng những chức năng / quyền lợi của EMS để trục lợi cũng như gây mất cân bằng cơ chế của người chơi trong TP 
+                - Bệnh viện CẤM TUYỆT ĐỐI các hành vi BSB trong BV và sẽ xử lý nghiêm theo luật BV và TP 
+                - Bệnh viện không cấm BS tham gia gang/team/hội nhóm... 
+
+                Hành vi như thế nào được xem là BSB? 
+                - Tuồn thông tin nội bộ EMS 
+                - Tuồn đồ EMS ra ngoài 
+                - Sử dụng chức năng bác sĩ để hỗ trợ cho gang / phe phái / bạn bè / người thân 
+                - Sử dụng GPS để báo vị trí BS/Cư Dân thông qua Đàm / Điện Thoại / MG (Discord....) cho người ngoài 
+                - Sử dụng thuốc hồi sinh đối với Cư Dân khi đang onduty 
+                - Có dấu hiệu ưu tiên hỗ trợ riêng bất kỳ phe phái nào trước 
+
+                Nên làm gì khi bắt gặp BSB? 
+                - Báo ngay với TTC 
+                - Báo ngay với BQL BV 
+                - Nên có các bằng chứng như hình ảnh, bodycam (IC, OOC,...) càng tốt 
+
+                Hình phạt của BSB ra sao? 
+                - Đối với BV: Sa Thải (ngay lập tức) + 2.000.000 IC (trở lên) và báo cáo sự việc lên TTC 
+                - Đối với TTC:  Tuỳ vào mức độ sẽ có hình phạt riêng</p> 
+            </div>
+        </section>
+
+        <!-- ==================== QUY ĐỊNH BÁC SĨ ==================== -->
+        <section id="quy-dinh-bac-si">
+            <h2>QUY ĐỊNH BÁC SĨ</h2>
+            
+            <div id="no-hoa-don" class="sub-section">
+                <h3>NỢ HÓA ĐƠN</h3>
+                <p>Bác Sĩ (BS) phải ghi hoá đơn cho Bệnh Nhân (BN) trước khi cấp cứu 
+
+                Giá trị hoá đơn sẽ dựa vào khu vực BN đã ngất và ping đơn. 
+
+                Với trường hợp không thể xác nhận khu vực BN ngất, BS sẽ dựa vào khu vực BV hiện tại để ghi giá. 
+
+                Đối với BN không thể ghi do đã đầy 5 hoá đơn thì BS thực hiện các quy trình sau: 
+
+                Nhắc nhở BN thanh toán bớt 1 hoá đơn. 
+
+                Ghi hoá đơn cho BN . 
+
+                Nếu BN báo hết tiền trong tài khoản, BS vác BN ra ATM thực hiện hành động chuyển tiền vào tài khoản để thanh toán. 
+
+                Trường hợp BN không còn tiền thì nhờ BN báo cho người thân / bạn bè đến hỗ trợ BN thanh toán bớt hoá đơn. 
+
+                Người nhà / Bạn bè / BS muốn hỗ trợ BN bằng cách đưa tiền BN thanh toán bớt hoá đơn, hạn chế tối đa ghi chịu hoá đơn giúp. 
+
+                Việc ghi Hoá đơn là trách nhiệm và nghĩa vụ của BS, việc không ghi hoá đơn với lí do không chính đáng sẽ bị phạt theo luật BV.</p> 
+            </div>
+
+            <div id="doi-voi-pd" class="sub-section">
+                <h3>ĐỐI VỚI PD</h3>
+                <p>Police Department (PD) khi cần sự giúp đỡ của BS (EMS) vui lòng thực hiện theo quy trình sau: 
+                    - Vào Đàm 911. 
+                    - Thông báo thân phận PD + Callsign. 
+                    - Thông tin tình huống cần giúp đỡ. 
+                    - Vui lòng thông tin đầy đủ, tránh tình trạng thông tin thiếu dẫn đến hiểu lầm không đáng có. 
+
+                PD khi chạy xe vào khu vực BV, vui lòng giảm tốc độ xe và đậu xe đúng vị trí được chỉ định, Không đậu trước cửa BV cũng như không chạy vào trong BV tránh va chạm Cư Dân và BS khác đang trực. 
+
+                PD cần giam giữ Tội phạm phòng riêng, vui lòng báo BS để được hỗ trợ. 
+
+                PD được ưu đãi hoá đơn giành riêng cho PD. 
+
+                PD làm nhiệm vụ bay khi ngất, nhận diện khi PD có balo dù màu đen (như hình) sau lưng sẽ được hỗ trợ hoá đơn 8$. 
+
+                PD không mặc đúng và đầy đủ đồng phục thì sẽ tính là Cư Dân và ghi hoá đơn theo bảng giá thường. 
+
+                Nếu PD có hành vi không chuẩn mực với BS, EMS có quyền từ chối cứu chữa, ghi nhận thông tin và báo lên cấp cao PD để xử lý nghiêm. 
+
+
+                <strong>2. EMS khi cần sự giúp đỡ của PD vui lòng thực hiện theo quy trình sau:</strong> 
+                    - Vào Đàm 113 (nếu không có PD trực thì BS vào Phòng trực Cảnh Sát bên ứng dụng đỉnh cao) 
+                    - Thông báo thân phận BS 
+                    - Thông tin tình huống cần giúp đỡ 
+                    - Vui lòng thông tin đầy đủ, tránh tình trạng thông tin thiếu dẫn đến hiểu lầm không đáng có 
+                    - Trong trường hợp Đàm 113 / Phòng trực CS không có PD trực, có thể nhờ Bác Sĩ Trưởng vào đàm 1 của PD để nhờ hỗ trợ 
+                - EMS được ưu tiên hỗ trợ khi vào đàm 113 
+                - EMS không được vào đàm 1-20 của PD 
+                - EMS cố gắng hỗ trợ PD tốt nhất trong khả năng khi có thể 
+                - Nếu BS nào có hành vi không chuẩn mực với PD, PD có quyền không hỗ trợ BS ấy, ghi nhận thông tin và báo lên BQL BV để xử lý nghiêm</p> 
+            </div>
+
+            <div id="giao-tiep" class="sub-section">
+                <h3>VẤN ĐỀ GIAO TIẾP</h3>
+                <p> <strong>1. Giao tiếp với cư dân (bệnh nhân)</strong> 
+
+                Luôn giữ thái độ lịch sự, tôn trọng và chuẩn mực trong mọi tình huống 
+
+                Sử dụng ngôn từ phù hợp với vai trò bác sĩ, tránh nói chuyện cộc lốc, khó chịu hoặc mang tính công kích 
+
+                Không được bỏ mặc, phớt lờ bệnh nhân khi họ đang cần hỗ trợ 
+
+                Trong trường hợp đông bệnh nhân, cần giải thích và trấn an, tránh gây hiểu lầm hoặc bức xúc 
+
+                Không tranh cãi, hơn thua với cư dân; ưu tiên xử lý tình huống một cách mềm mỏng và chuyên nghiệp 
+
+
+                <strong>2. Giao tiếp nội bộ (đồng nghiệp)</strong> 
+
+                Giữ thái độ tôn trọng, hợp tác và hỗ trợ lẫn nhau trong công việc 
+
+                Trao đổi rõ ràng, tránh gây hiểu nhầm hoặc mâu thuẫn không cần thiết 
+
+                Hạn chế lời nói mang tính tiêu cực, công kích cá nhân trong môi trường làm việc 
+
+                Khi có vấn đề, ưu tiên trao đổi riêng hoặc báo cáo cấp trên, không làm ảnh hưởng đến hình ảnh chung 
+
+                Phối hợp nhịp nhàng giữa các vị trí để đảm bảo hiệu quả ca trực 
+
+
+                <strong>3. Chuẩn mực chung</strong> 
+
+                Luôn giữ đúng vai trò bác sĩ trong cách nói chuyện và hành xử 
+
+                Tránh sử dụng các từ ngữ, hành động phá vỡ bối cảnh Roleplay 
+
+                Duy trì hình ảnh một đội ngũ bác sĩ chuyên nghiệp, tận tâm và đáng tin cậy 
+
+                Mọi hành vi thiếu chuẩn mực trong giao tiếp sẽ ảnh hưởng trực tiếp đến trải nghiệm của cư dân và uy tín bệnh viện 
+
+                Văn hoá giao tiếp là yếu tố cốt lõi, phản ánh chất lượng của bệnh viện 
+
+                Mọi vi phạm sẽ được ghi nhận và xử lý theo quy định nội bộ</p> 
+            </div>
+
+            <div id="au-da-vung-ban" class="sub-section">
+                <h3>ẤU ĐẢ / KHU VỰC BẨN</h3>
+                <p> <strong>1. Tiếp nhận và di chuyển</strong> 
+
+                After khi nhận tín hiệu cấp cứu, bác sĩ cần nhanh chóng di chuyển đến vị trí bệnh nhân 
+
+                Đảm bảo tác phong khẩn trương nhưng vẫn an toàn trong quá trình di chuyển 
+
+
+                <strong>2. Nguyên tắc cứu chữa</strong> 
+
+                Khi đến hiện trường, nếu có nhiều bệnh nhân: 
+                Ưu tiên cấp cứu những người gần nhất để tối ưu thời gian 
+                Phối hợp với các bác sĩ khác để xử lý nhanh và hiệu quả 
+
+                📌 Tuyệt đối: 
+                Không được lựa chọn bệnh nhân theo cảm tính 
+                Không ưu tiên người quen, thành viên cùng nhóm/gang 
+                Không phân biệt bất kỳ cá nhân nào 
+                ➡️ Mọi hành vi thiên vị có thể bị xem là vi phạm nghiêm trọng – bác sĩ bẩn, làm mất tính trung lập của bệnh viện 
+
+                <strong>3. Nguyên tắc trung lập ⚖️</strong> 
+                Bác sĩ có trách nhiệm cứu chữa tất cả mọi người như nhau 
+                Không đứng về bất kỳ tổ chức nào trong giao tranh 
+                Giữ vững nguyên tắc cốt lõi: Trung lập – Công bằng – Chuyên nghiệp 
+
+                <strong>4. Quyền hạn của bác sĩ tại hiện trường</strong> 
+                Tại khu vực giao tranh, bác sĩ có toàn quyền quyết định việc cứu chữa 
+                Không cá nhân hay tổ chức nào được cản trở, gây khó khăn cho bác sĩ trong quá trình làm nhiệm vụ 
+
+                <strong>5. Khuyến nghị sử dụng bodycam 🎥</strong> 
+                Khuyến khích bác sĩ sử dụng bodycam khi làm nhiệm vụ tại khu vực giao tranh / khu vực bẩn 
+                Nhằm: Khử nhiễu tranh cãi, khiếu nại | Làm bằng chứng bảo vệ bản thân trong các tình huống phát sinh 
+
+                📌 Quy định chung: 
+                Mọi vi phạm liên quan đến thiên vị, thiếu trung lập sẽ bị xử lý nghiêm theo nội quy bệnh viện 
+                Bác sĩ cần đặt trách nhiệm và đạo đức nghề nghiệp lên hàng đầu 
+                💙 “Đã là bác sĩ – thì mọi sinh mạng đều có giá trị như nhau.”</p> 
+            </div>
+
+            <div id="khu-khuan" class="sub-section">
+                <h3>KHỬ KHUẨN BV</h3>
+                <p> <strong>1. Điều kiện áp dụng khử khuẩn</strong> 
+
+                Việc khử khuẩn chỉ được tiến hành khi: 
+                Số lượng bệnh nhân quá đông và kéo dài liên tục 
+                Không thể xác định thời điểm giảm tải trong thời gian tới 
+                Nhân sự trong ca không đủ khả năng đáp ứng và xử lý kịp thời 
+                📌 Lưu ý quan trọng: Trường hợp lượng bệnh nhân tăng đột biến trong thời gian ngắn (mang tính thời điểm) → Ca trực vẫn phải cố gắng xử lý và cứu chữa như bình thường, không áp dụng khử khuẩn 
+                Trong quá trình này: Có thể xảy ra tình trạng xử lý chậm hơn so với bình thường. Bác sĩ cần chủ động trấn an, giải thích và hướng dẫn cư dân. Ưu tiên phối hợp nội bộ để đẩy nhanh tiến độ cứu chữa 
+
+                <strong>2. Thẩm quyền quyết định</strong> 
+                Bác sĩ trưởng trong ca trực chịu trách nhiệm đánh giá và quyết định 
+                Trường hợp BST vắng mặt, người có chức vụ cao nhất trong ca sẽ thay thế 
+
+                <strong>3. Thời gian khử khuẩn</strong> 
+                Áp dụng theo từng mức độ: 30 phút / 1 giờ / 2 giờ 
+                Trong thời gian này, các bác sĩ vẫn duy trì vị trí trực và trực như những ca bình thường. Ngoài ra có thể hỗ trợ cư dân nếu có vấn đề xảy ra. 
+
+                <strong>4. Mở lại hoạt động</strong> 
+                After thời gian khử khuẩn: Đánh giá lại tình hình thực tế. Nếu đã đảm bảo khả năng vận hành → Mở cửa bệnh viện trở lại 
+
+                <strong>5. Nguyên tắc áp dụng ⚠️</strong> 
+                Khử khuẩn là biện pháp tạm thời, không được lạm dụng dưới bất kỳ hình thức nào 
+                Tuyệt đối không sử dụng thời gian khử khuẩn để nghỉ ngơi, ngồi chơi hoặc làm việc cá nhân 
+                Quyết định khử khuẩn phải dựa trên tình trạng bệnh nhân thực tế, không dựa trên cảm tính 
+                📌 Đặc biệt: Không được lấy lý do thiếu nhân sự hoặc ca trực ít người để tiến hành khử khuẩn. Tránh tình trạng chưa quá tải nhưng đã đóng cửa bệnh viện 
+
+                <strong>6. Trách nhiệm & xử lý vi phạm</strong> 
+                Người ra quyết định khử khuẩn phải chịu trách nhiệm hoàn toàn về tính hợp lý của quyết định 
+                Trường hợp lạm dụng hoặc áp dụng sai quy định sẽ bị xem xét và xử lý theo nội quy bệnh viện 
+                📌 Mục tiêu: Đảm bảo bệnh viện luôn vận hành hiệu quả, công bằng và đúng với tinh thần phục vụ cư dân.</p> 
+            </div>
+        </section>
+
+        <!-- ==================== QUY ĐỊNH CƯ DÂN ==================== -->
+        <section id="quy-dinh-cu-dan-sec">
+            <h2>QUY ĐỊNH CƯ DÂN</h2>
+            <p>Đối với Cư Dân, CẤM TUYỆT ĐỐI những hành vi sau: 
+            - Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ 
+            - Cản trở việc cứu người của Bác Sĩ 
+            - Cướp / Trộm và Sử dụng xe EMS 
+            - Chạy xe vào khu vực BV 
+            - Dùng lời lẽ / hành vi toxic, không đúng chuẩn mực với Bác Sĩ 
+            - Giả mạo nhân viên EMS 
+            - Vào đàm 911 của BV (trừ PD khi có tình huống cần giúp đỡ), Cư Dân có thể vào phòng trực Bác Sĩ tại ứng dụng đỉnh cao của GachaCity để được hỗ trợ. 
+            - Gây rối / Ẩu đả với Cư Dân khác trong khuôn viên BV 
+            - Đeo mặt nạ trong khuôn viên BV 
+
+            Nếu Cư Dân ngất ở những nơi BS không thể tìm thấy, khó tiếp cận, hãy chụp hình vị trí và gửi vào kênh "hỗ-trợ-y-tế" để được giúp đỡ tốt nhất có thể. 
+
+            Bất kỳ Cư Dân nào có hành vi sai phạm, các Bác Sĩ có quyền từ chối chữa trị đến khi giải quyết xong tình huống hoặc xử lý theo luật TP và BV.</p> 
+        </section>
+
+        <!-- ==================== ÁN PHẠT BỆNH VIỆN ==================== -->
+        <section id="an-phat-benh-vien">
+            <h2>ÁN PHẠT BỆNH VIỆN</h2>
+            
+            <div id="an-phat-bac-si" class="sub-section">
+                <h3>ĐỐI VỚI BÁC SĨ</h3>
+                <p> <strong>I. Vi phạm về phương tiện</strong> 
+
+                Phóng nhanh, vượt ẩu, gây tai nạn 
+                ➡️ Án phạt: 5.000  
+
+                Phóng nhanh, vượt ẩu, gây tai nạn nhưng bỏ trốn 
+                ➡️ Án phạt: 20.000 
+
+                Vứt phương tiện EMS bừa bãi sau khi sử dụng 
+                ➡️ Án phạt: 10.000 (áp dụng toàn khu vực) 
+
+                Sử dụng phương tiện EMS cho mục đích cá nhân (chưa xin phép) 
+                Lần 1: 20.000 
+                Lần 2: 50.000 
+                Lần 3: 100.000 + Hạ Chức /Sa thái (tuỳ mức độ nghiêm trọng) 
+
+                ⏰ <strong>II. Vi phạm về ca trực & kỷ luật</strong> 
+                <strong>5. Vắng ca trực không phép</strong> 
+                Lần 1: 25.000 
+                Lần 2: 50.000 
+                Lần 3: 100.000 / Sa thải 
+                Vắng ca trực không phép 2 ngày liên tiếp 
+                ➡️ Sa thái 
+                Xin vắng OC nhưng vẫn xuất hiện trong thành phố 
+                ➡️ Xử lý như vắng không phép 
+                Out ngành khi chưa trực đủ thời gian 7 ngày thử thách 
+                ➡️ Án phạt: 200.000 
+                Xin out ngành nhưng báo dưới 3 ngày 
+                ➡️ Án phạt: 200.000 
+
+                ⚠️ <strong>III. Vi phạm trong công việc chuyên môn</strong> 
+                <strong>10. Sai luật làm bẩn cơ bản</strong> 
+                Lần 1: 10.000 
+                Lần 2: 20.000 
+                Lần 3: 50.000  
+                Lần 4: Sa thải 
+                Treo ON DUTY, không tương tác/nhận đơn 
+                Lần 1: 50.000 
+                Lần 2: 100.000 
+                Lần 3: Sa thải 
+                Chữa trị không ghi hóa đơn 
+                Lần 1: 50.000 
+                Lần 2: 100.000 
+                Lần 3: Sa thải 
+                Sử dụng chức năng bác sĩ khi không trong ca trực 
+                Lần 1: 10.000 
+                Lần 2: 20.000 
+                Lần 3: 50.000 
+
+                🚫 <strong>IV. Vi phạm đạo đức & lạm quyền</strong> 
+                Nhận tiền mặt thay vì viết hóa đơn 
+                ➡️ Sa thải + Blacklist bệnh viện 
+                Lợi dụng quyền lợi bác sĩ để trục lợi cá nhân 
+                ➡️ Án phạt: 100.000 
+                Lạm quyền 
+                Lần 1: 20.000 
+                Lần 2: 50.000 
+                Lần 3: 100.000 + Hạ chức / Sa thải 
+                Sử dụng đồ ngành sai mục đích : Thu hồi 7 ngày + 100.000 
+                Tàng trữ đồ ban ngành ( Mang theo ngoài ca trực , cất ở ngoài không phải tủ đồ bv) : Thu hồi 14-30 ngày + 500.000 
+
+                🗣️ <strong>V. Vi phạm tác phong & giao tiếp</strong> 
+                Đánh nhau, làm việc riêng gây ảnh hưởng công việc ➡️ Án phạt: 5.000 
+                "Chặt gáy" đồng nghiệp: 
+                - Lần 1: 100.000 
+                - Lần 2: 300.000 + Hạ chức 
+                - Lần 3: 500.000 + Sa Thải 
+                Khiêu khích, gây hấn, dùng lời lẽ không chuẩn mực ➡️ Án phạt: 50.000 
+                Mặc sai đồng phục ➡️ Án phạt: 5.000 
+                Vào đàm từ 1–20 khi chưa được QLPD cho phép ➡️ Án phạt: 30.000 
+
+                📌 Quy định chung: 
+                Tùy theo mức độ vi phạm, Ban Giám đốc có thể tăng nặng hình thức xử lý 
+                Các hành vi nghiêm trọng có thể hạ chức hoặc sa thải ngay lập tức 
+                Mọi bác sĩ cần tự giác tuân thủ để giữ gìn hình ảnh bệnh viện</p> 
+            </div>
+
+            <div id="an-phat-cu-dan" class="sub-section">
+                <h3>ĐỐI VỚI CƯ DÂN</h3>
+                <p>🧾ÁN PHẠT ĐỐI VỚI CƯ DÂN🧾 
+
+
+                🚫 <strong>I. Hành vi gây rối – bạo lực</strong> 
+
+                <strong>1. Ẩu đả trong hoặc trước cổng bệnh viện</strong> 
+                💰 Mức phạt: 10.000$ 
+
+                <strong>2. Tấn công bác sĩ / nhân sự EMS</strong> 
+                💰 Mức phạt: 30.000$ 
+
+                <strong>3. Gây tử vong trong khu vực bệnh viện</strong> 
+                (tông xe, đánh nhau, gây hỗn loạn dẫn đến chết người...) 
+                💰 Mức phạt: 50.000$ 
+
+                🚨 <strong>II. Hành vi làm gián đoạn công tác cứu hộ</strong> 
+
+                <strong>4. Ping (E) / gọi 911 sai mục đích</strong> 
+                Chỉ sử dụng khi cư dân đã ngất, cần cấp cứu thực sự. 
+                💰 Mức phạt: 5.000$ 
+
+                <strong>5. Giả danh người thuộc ban ngành / cơ quan chức năng</strong> 
+                💰 Mức phạt: 100.000$ 
+
+                🚗 <strong>III. Vi phạm phương tiện & tài sản</strong> 
+
+                <strong>6. Điều khiển phương tiện vào khuôn viên bệnh viện</strong> 
+                💰 Mức phạt: 5.000$ 
+
+                <strong>7. Cướp, phá hoại hoặc chiếm dụng phương tiện EMS</strong> 
+                💰 Mức phạt: 100.000$ 
+
+                🎭 <strong>IV. Vi phạm nội quy bệnh viện</strong> 
+
+                <strong>8. Đeo mặt nạ trong khu vực bệnh viện</strong> 
+                💰 Mức phạt: 5.000$ 
+
+                <strong>9. Gây ồn ào, tụ tập mất trật tự</strong> 
+                💰 Mức phạt: 20.000$ 
+
+                <strong>10. Có hành vi toxic, xúc phạm, khiêu khích bằng lời nói/hành động</strong> 💰 Mức phạt: 5.000$ / mỗi lần vi phạm</p> 
+            </div>
+        </section>
+
+        <!-- ==================== THỦ TỤC HÀNH CHÍNH ==================== -->
+        <section id="thu-tuc-hanh-chinh-sec">
+            <h2>THỦ TỤC HÀNH CHÍNH</h2>
+            <div id="thu-tuc" class="sub-section">
+                <h3>THỦ TỤC</h3>
+                <p><strong>1. ĐĂNG KÝ CA OT</strong> 
+                - Đăng ký Ca OT tại "💊-đăng-ký-ca-trực" 
+                - Ca đăng ký là CA CHẴN 2 TIẾNG (VD: 0-2, 2-4, 4-6...), KHÔNG ĐĂNG KÝ ca 1 tiếng hay ca GIỜ LẺ 
+                - Đăng ký trong ngày, khi ca trực còn trống sẽ được BST / Thư Ký / Ban Giám Đốc tick ✅ xác nhận slot trực 
+                - Sau 21h mỗi tối, các bạn có thể chủ động ĐK OT cho ngày hôm sau. 
+                - Khi đăng ký, TUYỆT ĐỐI KHÔNG chỉnh sửa, khi ĐK sai hãy xoá và ĐK lại. 
+                - Các ca OT đã được duyệt thì HẠN CHẾ XIN VẮNG 
+                - Vui lòng ĐK từng ca một,  Không ĐK nhiều ca trong một tin nhắn để BST có thể ✅ từng ca giúp bạn. 
+                    - VD: 
+                        - +1 OT 0-2  (enter) 
+                        - +1 OT 2-4  (enter) 
+
+
+                <strong>2. XIN VÀO TRỄ</strong> 
+                - Khi các bạn gặp việc bận (OOC, IC,...) và chưa thể vào ca trực của mình đúng giờ thì có thể làm "Đơn xin vào trễ" tại "⏰-xin-vào-trễ" 
+                - Đơn xin vào trễ KHÔNG ĐƯỢC CHỈNH SỬA 
+                - Đơn phải làm trước ca trực ít nhất 10p 
+                - Đơn phải tag BST ca trực đó (trường hợp không có BST ca đó, thì có thể tag Thư Ký/BGĐ) 
+                - Đơn đầy đủ phải làm như sau: 
+                Đơn xin vào trễ: 
+                Tên: …. 
+                Ngày: …. 
+                Ca trực: …. 
+                Thời gian trễ: …. 
+                Lý do: …. 
+                Tôi/Em xin thông tin đến (tag BST ca vào trễ) phê duyệt ạ 
+
+
+                <strong>3. XIN  VẮNG:</strong> 
+                - Khi các bạn gặp việc bận (OOC, IC,...) và KHÔNG thể trực ca của mình thì có thể làm "Đơn xin vắng" tại "🛌-xin-vắng" 
+                - Đơn xin vắng KHÔNG ĐƯỢC CHỈNH SỬA 
+                - Đơn phải làm trước ca trực ít nhất 1 tiếng trước ca trực 
+                - Trường hợp không xin vắng trước 1 tiếng thì phải kiếm bạn khác thay ca mình 
+                - Nếu xin vắng vì Lý do IC thì phải kiếm bạn khác thay ca giúp 
+                - Xin vắng vì Lý do OOC nhưng vẫn thấy trong Thành Phố thì sẽ bị tính là Vắng Không Phép và nhận phạt 
+                - Xin vắng 3 lần liên tiếp thì sẽ bị tính là Vắng Không Phép và nhận phạt 
+                - Đơn phải tag BST ca trực đó (trường hợp không có BST ca đó, thì có thể tag Thư Ký/BGĐ) 
+                - Đơn đầy đủ phải làm như sau: 
+                Đơn xin vắng: 
+                Tên: …. 
+                Ngày: …. 
+                Ca trực: …. 
+                Thời gian vắng: …. 
+                Lý do: …. 
+                Tôi/Em mong muốn (tag BST ca vắng) xem xét và phê duyệt giúp sớm ạ. 
+
+
+                <strong>4. XIN  VẮNG DÀI HẠN:</strong> 
+                - Khi các bạn gặp việc bận và KHÔNG CÓ THỂ trực được trong 1 khoảng thời gian thì có thể làm "Đơn xin vắng dài hạn" tại "🛌-xin-vắng" 
+                - Đơn xin vắng DH KHÔNG ĐƯỢC CHỈNH SỬA 
+                - Đơn phải làm trước ca trực ít nhất 1 ngày trước ca trực 
+                - Trường hợp không xin vắng trước 1 ngày thì phải kiếm bạn khác thay ca mình 
+                - Xin vắng  DH tối đa là 30 ngày, trường hợp lâu hơn phải có lí do chính đáng và sẽ được xem xét. 
+                - Khi vắng  DH sẽ bị xoá role tạm thời trong TP, khi có nhu cầu trực lại vui lòng báo cho Thư Ký/BGĐ biết để sắp xếp ca trực và cấp role lại. 
+                - Đơn phải tag BST ca trực và Thư Ký/BGĐ 
+                - Đơn đầy đủ phải làm như sau: 
+                Đơn xin vắng dài hạn: 
+                Tên: …. 
+                Ngày: …. 
+                Ca trực: …. 
+                Thời gian vắng DH: …. 
+                Lý do: …. 
+                Tôi/Em mong muốn (tag BST ca vắng và TK/BGĐ) phê duyệt giúp ạ. 
+
+
+                <strong>5. XIN ĐỔI CA TRỰC:</strong> 
+                - Với các bạn mong muốn đổi ca trực chính của bản thân có thể làm "Đơn xin đổi ca trực" tại "📇-xin-đổi-ca-trực" 
+                - Đơn đổi ca trực KHÔNG ĐƯỢC CHỈNH SỬA   
+                - Đơn phải tag Thư Ký và BGĐ 
+                - Ca trực chính sẽ được đổi vào Thứ 2 của tuần kế tiếp sau khi đơn được tiếp nhận và  kiểm tra nếu có thể đổi ca giúp bạn được không. 
+                - Đơn đầy đủ phải làm như sau: 
+                Đơn xin đổi ca trực: 
+                Tên: …. 
+                Ngày bắt đầu đổi: …. 
+                Ca trực cũ: …. 
+                Ca trực mới: .... 
+                Lý do (cụ thể): …. 
+                Tôi/Em mong muốn (Tag Thư Ký và BGĐ) xem xét và phê duyệt sớm giúp tôi/em 
+
+                <strong>6. XIN RỜI NGÀNH:</strong> 
+                - Liên hệ Ban giám đốc để được hướng dẫn làm thủ tục nghỉ việc.</p> 
+            </div>
+        </section>
+
+        <!-- ==================== QUY CÁCH ĐIỂM DANH ==================== -->
+        <section id="diem-danh-sec">
+            <h2>QUY CÁCH ĐIỂM DANH</h2>
+            <div id="quy-cach-diem-danh" class="sub-section">
+                <p>Trong trường hợp cần phải "ĐIỂM DANH THỦ CÔNG": 
+                - Không chỉnh sửa tin nhắn Điểm danh. 
+                - Không trực bù ca. 
+                - Không điểm danh dồn các ca trong 1 tin. 
+                - Không điểm danh hộ ca giúp nếu không trực trong ca đó 
+                - Điểm danh đúng và đủ nhân sự, ghi chú rõ ràng, minh bạch 
+                - Các BS không ngồi phòng trực ➡️ không được điểm danh. 
+                - Các ca điểm danh sẽ do BST điểm danh (nếu không có BST sẽ là Bác sĩ quản ca) 
+                - Điểm danh ca trễ nhất là 24h sau khi ca đó đã kết thúc.</p> 
+            </div>
+        </section>
+
+        <!-- ==================== KHU VỰC VÀ TRANG PHỤC ==================== -->
+        <section id="khu-vuc-trang-phuc">
+            <h2>KHU VỰC VÀ TRANG PHỤC</h2>
+            
+            <div id="khu-vuc-cap-cuu" class="sub-section">
+                <h3>KHU VỰC CẤP CỨU</h3>
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1pTuvN7A2dpTua3RmEswcCpNnYAREOYqw" class="media-img" alt="Bản đồ Khu Vực Cấp Cứu" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
+                    <div class="media-caption">
+                        Màu Hồng: Khu Vực Thành Phố Màu Vàng: Khu Vực Sa Mạc Màu Xanh Lá: Khu Vực 12H Màu Xanh Dương: Khu Vực Đường Thuỷ (sông, suối, hồ, biển,...) 
+                    </div>
+                </div>
+            </div>
+
+            <div id="khu-vuc-cam-giao-tranh" class="sub-section">
+                <h3>KHU VỰC CẤM GIAO TRANH TẠI BV</h3>
+                
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1bBqDqIpNbuot9ACtEWINMTVuny_F1GvI" class="media-img" alt="Khu Vực BV Thành Phố" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
+                    <div class="media-caption text-danger-strong">
+                        KHU VỰC BV THÀNH PHỐ <br>**Cấm Bất Kỳ Giao Tranh Nào trong Vùng Đỏ** </div>
+                </div>
+
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1XEvUnYHGVsB7-JLtSGHU6PqOS2B7m5vc" class="media-img" alt="Khu Vực BV Sa Mạc" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
+                    <div class="media-caption text-danger-strong">
+                        KHU VỰC BV SA MẠC <br>** Cấm Bất Kỳ Giao Tranh Nào trong Vùng Đỏ ** </div>
+                </div>
+            </div>
+
+            <div id="khu-vuc-nghe-ban" class="sub-section">
+                <h3>KHU VỰC NGHỀ BẨN</h3>
+                
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/10-9NtjkXBDy98h-LdLmroqJIPVa_g2Wy" class="media-img" alt="Khu Vực Đào Quặng Lậu">
+                    <div class="media-caption">- Khu Vực Đào Quặng Lậu</div>
+                </div>
+
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1yvYLq-enQKDLONrVtEpf4UDlcjAzHoyz" class="media-img" alt="Khu Vực Bãi Gỗ Lậu">
+                    <div class="media-caption">- Khu Vực Bãi Gỗ Lậu</div>
+                </div>
+
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1M79jsg0AqvFm5kdWmVvUe7k-FzT6glaK" class="media-img" alt="Khu Vực Bãi Cần">
+                    <div class="media-caption">- Khu Vực Bãi Cần (Gần 703 và 717)</div>
+                </div>
+            </div>
+
+            <div id="benh-nhan-cuop-tui-mu" class="sub-section">
+                <h3>BỆNH NHÂN CƯỚP TÚI MÙ</h3>
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1T4_eedgdWRLn7ChXwWly_HP3osvBH0Kr" class="media-img" alt="Bệnh Nhân Cướp Túi Mù">
+                    <div class="media-caption" style="border-left-color: var(--accent-color); background: #fef2f2;">
+                        <span style="color: var(--accent-color); font-weight: 800; font-size: 1.1rem; display:block; margin-bottom:5px;">**Bệnh Nhân Cướp Túi Mù **</span> 
+                        - Đặc điểm nhận dạng: <br>
+                        + Bệnh nhân (BN) mang mặt nạ <br> 
+                        + BN có mang vũ khí <br> 
+                        + BN có cầm thêm túi xách / túi vải... 
+                    </div>
+                </div>
+            </div>
+
+            <div id="nhan-dien-dong-phuc" class="sub-section">
+                <h3>NHẬN DIỆN ĐỒNG PHỤC</h3>
+                
+                <div class="uniform-gender-block">
+                    <h4 style="margin-top:0; color:#0056b3;">👨 ĐỒNG PHỤC DÀNH CHO NAM</h4>
+                    
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>1. TTS (NAM) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục TTS Nam</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>2. Y TÁ (NAM) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục Y Tá Nam</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không độ chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>3. BÁC SĨ (NAM) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục Bác Sĩ Nam</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>4. BÁC SĨ TRƯỞNG (NAM) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục BST Nam</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng phải là giày - không mang dép, không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>5. BAN GIÁM ĐỐC (NAM) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục BGD Nam</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng phải là giày - không mang dép, không để chân trần)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="uniform-gender-block" style="border-left-color: #db2777;">
+                    <h4 style="margin-top:0; color:#db2777;">👩 ĐỒNG PHỤC DÀNH CHO NỮ</h4>
+                    
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>1. TTS (NỮ) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục TTS Nữ</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> (mặc định của lệnh duty)</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>2. Y TÁ (NỮ) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục Y Tá Nữ</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> update sau</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>3. BÁC SĨ (NỮ) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục Bác Sĩ Nữ</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> update sau</li>
+                            <li><strong>Quần:</strong> (Tự do nhưng kín đáo)</li>
+                            <li><strong>Tay:</strong> update sau</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>4. BÁC SĨ TRƯỞNG (NỮ) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục BST Nữ</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> (Tự do nhưng kín đáo)</li>
+                            <li><strong>Quần:</strong> (Tự do nhưng kín đáo)</li>
+                            <li><strong>Tay:</strong> (Tự do nhưng nên có găng tay)</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng phải là giày - không mang dép, không để chân trần)</li>
+                        </ul>
+                    </div>
+
+                    <div class="uniform-item">
+                        <div class="uniform-title"><strong>5. BAN GIÁM ĐỐC (NỮ) (Ảnh update sau)</strong></div>
+                        <span class="uniform-placeholder-text">📸 Khung hiển thị ảnh trang phục BGD Nữ</span>
+                        <ul class="uniform-details">
+                            <li><strong>Áo khoác:</strong> update sau</li>
+                            <li><strong>Áo trong:</strong> (Tự do nhưng kín đáo)</li>
+                            <li><strong>Quần:</strong> (Tự do nhưng kín đáo)</li>
+                            <li><strong>Tay:</strong> (Tự do nhưng nên có găng tay)</li>
+                            <li><strong>Giày:</strong> (Tự do nhưng phải là giày - không mang dép, không để chân trần)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CHÍNH SÁCH VÀ QUYỀN LỢI EMS ==================== -->
+        <section id="chinh-sach-quyen-loi">
+            <h2>CHÍNH SÁCH VÀ QUYỀN LỢI EMS</h2>
+            
+            <div id="chinh-sach-ho-tro" class="sub-section">
+                <h3>CHÍNH SÁCH HỖ TRỢ BV</h3>
+                <p>Khi bạn trở thành một phần của EMS, bạn sẽ được hưởng những chính sách hỗ trợ từ những Ban ngành, TTC như sau: 
+
+                Đối với Bệnh Viện: 
+                - Được sắp xếp chỗ ngủ miễn phí 
+                - Được cấp tủ đồ ban ngành 
+                - Được sử dụng phương tiện và dụng cụ ban ngành EMS để hỗ trợ cứu chữa 
+                - Được chữa trị khi bị thương trong ca trực 
+                - Được miễn viện phí khi đang trong ca trực 
+                - Được bảo vệ tuyệt đối bởi TTC khi đang trong ca trực 
+                - Đặc biệt, với các bạn có cấp bậc Y Tá trở lên: 
+                    • Được hỗ trợ xin cấp balo ngành C3 
+                    • Được hỗ trợ xin cấp Thẻ Trắng 
+
+                Đối với Sở Cảnh Sát (PD): 
+                - Các giấy tờ như CCCD, GPLX: được làm Miễn Phí 
+                - Các giấy tờ Đăng Ký Xe >>> Giảm 15% 
+
+                Đối với Cardealer (CDL): 
+                - Từ cấp bậc Y Tá trở lên, khi mua xe tại CDL >>> Giảm 15%</p> 
+            </div>
+
+            <div id="quyen-loi-kpi" class="sub-section">
+                <h3>QUYỀN LỢI VÀ KPI</h3>
+                <p>Để khuyến khích cũng như mong muốn các Bác Sĩ có thể gắn bó lâu dài với Bệnh Viện, Hiện nay BV đang áp dụng các mốc Chuyên Cần và KPI như sau: 
+
+                <strong>1. Chuyên Cần:</strong>  
+                - 10 tiếng ca trực chính: 25.000$ 
+                - 12 tiếng ca trực chính: 50.000$ 
+                - 14 tiếng ca trực chính: 100.000$ 
+
+                <strong>2. Tổng Giờ Trực (theo tuần):</strong>  
+                - 14 tiếng: 20.000$ 
+                - 24 tiếng: 50.000$ 
+                - 34 tiếng: 100.000$ 
+                - 40 tiếng: 200.000$ 
+                - 50 tiếng: 300.000$ 
+
+                <strong>3. KPI ca Đêm từ 00h - 06h (theo tuần):</strong>  
+                - 10 tiếng: 100.000$ 
+                - 20 tiếng: 150.000$ 
+                - 30 tiếng: 200.000$ 
+
+                <strong>4. KPI ca Đêm từ 02h - 06h (theo tuần):</strong>  
+                - 10 tiếng: 130.000$ 
+                - 16 tiếng: 160.000$ 
+                - 22 tiếng: 190.000$ 
+
+                <strong>5. Thưởng Quý - dựa vào tổng giờ trực mỗi 4 tuần:</strong>  
+                - Top 1: 800.000$ 
+                - Top 2: 500.000$ 
+                - Top 3: 200.000$</p> 
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sections = document.querySelectorAll(".sub-section, .standalone-link, #banner");
+        const navLinks = document.querySelectorAll(".sidebar-menu li a");
+
+        window.addEventListener("scroll", () => {
+            let current = "banner";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 120) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(a => {
+                a.classList.remove("active");
+                if (a.getAttribute("href").includes(current)) {
+                    a.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
