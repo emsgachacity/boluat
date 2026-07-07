@@ -207,13 +207,11 @@
             margin-bottom: 0;
         }
 
-        /* CẬP NHẬT QUAN TRỌNG: Ẩn tất cả nội dung mặc định, chỉ hiện phần được chọn */
         .tab-content {
             display: none;
             animation: fadeIn 0.4s ease;
         }
 
-        /* Hiện mục có class active-tab */
         .tab-content.active-tab {
             display: block;
         }
@@ -229,16 +227,21 @@
             border-radius: 12px;
             padding: 30px;
             margin-bottom: 35px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
             border: 1px solid var(--border-color);
         }
 
+        /* TỐI ƯU TIÊU ĐỀ CHÍNH NỔI BẬT HƠN VỚI NỀN GRADIENT */
         section h2 {
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            font-size: 1.4rem;
+            margin: -30px -30px 25px -30px; /* Đẩy sát viền thẻ card trắng */
+            padding: 15px 30px;
+            border-radius: 11px 11px 0 0; /* Bo tròn viền khớp card bên ngoài */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(93, 0, 179, 0.15);
         }
 
         .sub-card {
@@ -381,6 +384,7 @@
             .sidebar-brand { border-bottom: none; margin-bottom: 0; padding-bottom: 5px; }
             .main-content { width: 100%; margin-left: 0; padding: 20px; }
             .sidebar-menu li a:hover { transform: translateX(0); padding-left: 20px !important; }
+            section h2 { margin: -30px -30px 25px -30px; border-radius: 11px 11px 0 0; }
         }
     </style>
 </head>
@@ -398,7 +402,7 @@
             <li class="menu-category">QUY ĐỊNH BỆNH VIỆN</li>
             <li><a data-target="ngoai-ca-truc" class="sidebar-link">Ngoài Ca Trực</a></li>
             <li><a data-target="truoc-trong-ca" class="sidebar-link">Trước và Trong Ca Trực</a></li>
-            <li><a data-target="bac-si-ban" class="sidebar-link">Hành Vi "BÁC SĨ BẨN"</a></li>
+            <li><a href="#bac-si-ban" data-target="bac-si-ban" class="sidebar-link">Hành Vi "BÁC SĨ BẨN"</a></li>
             
             <li class="menu-category">QUY ĐỊNH BÁC SĨ</li>
             <li><a data-target="no-hoa-don" class="sidebar-link">NỢ HÓA ĐƠN</a></li>
@@ -727,7 +731,7 @@
 
                     <strong>4. Quyền hạn của bác sĩ tại hiện trường</strong> 
                     Tại khu vực giao tranh, bác sĩ có toàn quyền quyết định việc cứu chữa 
-                    Không cá nhân hay tổ chức nào được cản trở, gây khó khăn cho bác sĩ trong quá trình làm nhiệm vụ 
+                    Không cá nhân hay tổ chức nào được cản trước, gây khó khăn cho bác sĩ trong quá trình làm nhiệm vụ 
 
                     <strong>5. Khuyến nghị sử dụng bodycam 🎥</strong> 
                     Khuyến khích bác sĩ sử dụng bodycam khi làm nhiệm vụ tại khu vực giao tranh / khu vực bẩn 
@@ -785,20 +789,22 @@
         <div id="quy-dinh-cu-dan-sec" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH CƯ DÂN</h2>
-                <p>Đối với Cư Dân, CẤM TUYỆT ĐỐI những hành vi sau: 
-                - Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ 
-                - Cản trở việc cứu người của Bác Sĩ 
-                - Cướp / Trộm và Sử dụng xe EMS 
-                - Chạy xe vào khu vực BV 
-                - Dùng lời lẽ / hành vi toxic, không đúng chuẩn mực với Bác Sĩ 
-                - Giả mạo nhân viên EMS 
-                - Vào đàm 911 của BV (trừ PD khi có tình huống cần giúp đỡ), Cư Dân có thể vào phòng trực Bác Sĩ tại ứng dụng đỉnh cao của GachaCity để được hỗ trợ. 
-                - Gây rối / Ẩu đả with Cư Dân khác trong khuôn viên BV 
-                - Đeo mặt nạ trong khuôn viên BV 
+                <div class="sub-card">
+                    <p>Đối với Cư Dân, CẤM TUYỆT ĐỐI những hành vi sau: 
+                    - Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ 
+                    - Cản trở việc cứu người của Bác Sĩ 
+                    - Cướp / Trộm và Sử dụng xe EMS 
+                    - Chạy xe vào khu vực BV 
+                    - Dùng lời lẽ / hành vi toxic, không đúng chuẩn mực với Bác Sĩ 
+                    - Giả mạo nhân viên EMS 
+                    - Vào đàm 911 của BV (trừ PD khi có tình huống cần giúp đỡ), Cư Dân có thể vào phòng trực Bác Sĩ tại ứng dụng đỉnh cao của GachaCity để được hỗ trợ. 
+                    - Gây rối / Ẩu đả với Cư Dân khác trong khuôn viên BV 
+                    - Đeo mặt nạ trong khuôn viên BV 
 
-                Nếu Cư Dân ngất ở những nơi BS không thể tìm thấy, khó tiếp cận, hãy chụp hình vị trí và gửi vào kênh "hỗ-trợ-y-tế" để được giúp đỡ tốt nhất có thể. 
+                    Nếu Cư Dân ngất ở những nơi BS không thể tìm thấy, khó tiếp cận, hãy chụp hình vị trí và gửi vào kênh "hỗ-trợ-y-tế" để được giúp đỡ tốt nhất có thể. 
 
-                Bất kỳ Cư Dân nào có hành vi sai phạm, các Bác Sĩ có quyền từ chối chữa trị đến khi giải quyết xong tình huống hoặc xử lý theo luật TP và BV.</p>
+                    Bất kỳ Cư Dân nào có hành vi sai phạm, các Bác Sĩ có quyền từ chối chữa trị đến khi giải quyết xong tình huống hoặc xử lý theo luật TP và BV.</p>
+                </div>
             </section>
         </div>
 
@@ -1074,13 +1080,13 @@
                         <img src="https://lh3.googleusercontent.com/d/1bBqDqIpNbuot9ACtEWINMTVuny_F1GvI" class="media-img" alt="Khu Vực BV Thành Phố" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
                         <div class="media-caption text-danger-strong">
                             KHU VỰC BV THÀNH PHỐ <br>**Cấm Bất Kỳ Giao Tranh Nào trong Vùng Đỏ** </div>
-                    </div>
+                </div>
 
-                    <div class="media-container">
-                        <img src="https://lh3.googleusercontent.com/d/1XEvUnYHGVsB7-JLtSGHU6PqOS2B7m5vc" class="media-img" alt="Khu Vực BV Sa Mạc" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
-                        <div class="media-caption text-danger-strong">
-                            KHU VỰC BV SA MẠC <br>** Cấm Bất Kỳ Giao Tranh Nào trong Vùng Đỏ ** </div>
-                    </div>
+                <div class="media-container">
+                    <img src="https://lh3.googleusercontent.com/d/1XEvUnYHGVsB7-JLtSGHU6PqOS2B7m5vc" class="media-img" alt="Khu Vực BV Sa Mạc" onerror="this.src='https://placehold.co/750x400?text=L%E1%BB%97i+t%E1%BA%A3i+%E1%BA%A3nh+-+Vui+l%C3%B2ng+ki%E1%BB%83m+tra+quy%E1%BB%81n+chia+s%E1%BA%BB+Drive'">
+                    <div class="media-caption text-danger-strong">
+                        KHU VỰC BV SA MẠC <br>** Cấm Bất Kỳ Giao Tranh Nào trong Vùng Đỏ ** </div>
+                </div>
                 </div>
             </section>
         </div>
