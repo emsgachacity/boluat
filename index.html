@@ -148,6 +148,18 @@
             text-transform: uppercase;
         }
 
+        /* Class làm nổi bật mục chính không có link bấm */
+        .main-category-highlight {
+            font-size: 0.92rem !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            letter-spacing: 0.8px !important;
+            padding: 16px 10px 6px 10px !important;
+            margin-top: 15px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            text-transform: uppercase;
+        }
+
         .sidebar-menu li a {
             display: block;
             padding: 5px 12px 5px 22px !important;
@@ -536,7 +548,7 @@
             .main-content { 
                 width: 100%; 
                 margin-left: 0; 
-                padding: 85px 15px 25px 15px; /* Thêm padding-top 85px để không bịMobile Header che mất nội dung */
+                padding: 85px 15px 25px 15px;
             }
 
             .sidebar-menu li a:hover { transform: none; padding-left: 20px !important; }
@@ -552,7 +564,6 @@
     <!-- Mobile Header (Chỉ hiện trên điện thoại) -->
     <header class="mobile-header">
         <button class="menu-toggle" id="menuBtn">
-            <!-- Biểu tượng 3 gạch Menu bằng SVG gọn nhẹ -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
         <div class="mobile-title">Luật Gacha City EMS</div>
@@ -570,37 +581,37 @@
         <ul class="sidebar-menu">
             <li><a data-target="home-tab" class="sidebar-link standalone-link active">Home</a></li>
             
-            <li class="menu-category">QUY ĐỊNH BỆNH VIỆN</li>
+            <li class="menu-category main-category-highlight">QUY ĐỊNH BỆNH VIỆN</li>
             <li><a data-target="ngoai-ca-truc" class="sidebar-link">Ngoài Ca Trực</a></li>
             <li><a data-target="truoc-trong-ca" class="sidebar-link">Trước và Trong Ca Trực</a></li>
             <li><a data-target="bac-si-ban" class="sidebar-link">Hành Vi "BÁC SĨ BẨN"</a></li>
             
-            <li class="menu-category">QUY ĐỊNH BÁC SĨ</li>
+            <li class="menu-category main-category-highlight">QUY ĐỊNH BÁC SĨ</li>
             <li><a data-target="no-hoa-don" class="sidebar-link">NỢ HÓA ĐƠN</a></li>
             <li><a data-target="doi-voi-pd" class="sidebar-link">ĐỐI VỚI PD</a></li>
             <li><a data-target="giao-tiep" class="sidebar-link">VẤN ĐỀ GIAO TIẾP</a></li>
             <li><a data-target="au-da-vung-ban" class="sidebar-link">ẤU ĐẢ / KHU VỰC BẨN</a></li>
             <li><a data-target="khu-khuan" class="sidebar-link">KHỬ KHUẨN BV</a></li>
             
-            <li><a data-target="quy-dinh-cu-dan-sec" class="sidebar-link standalone-link">QUY ĐỊNH CƯ DÂN</a></li>
+            <li><a data-target="quy-dinh-cu-dan-sec" class="sidebar-link">QUY ĐỊNH CƯ DÂN</a></li>
             
-            <li class="menu-category">ÁN PHẠT BỆNH VIỆN</li>
+            <li class="menu-category main-category-highlight">ÁN PHẠT BỆNH VIỆN</li>
             <li><a data-target="an-phat-bac-si" class="sidebar-link">ĐỐI VỚI BÁC SĨ</a></li>
             <li><a data-target="an-phat-cu-dan" class="sidebar-link">ĐỐI VỚI CƯ DÂN</a></li>
             
-            <li class="menu-category">THỦ TỤC HÀNH CHÍNH</li>
+            <li class="menu-category main-category-highlight">THỦ TỤC HÀNH CHÍNH</li>
             <li><a data-target="thu-tuc" class="sidebar-link">THỦ TỤC</a></li>
             
-            <li><a data-target="diem-danh-sec" class="sidebar-link standalone-link">QUY CÁCH ĐIỂM DANH</a></li>
+            <li><a data-target="diem-danh-sec" class="sidebar-link">QUY CÁCH ĐIỂM DANH</a></li>
             
-            <li class="menu-category">KHU VỰC VÀ TRANG PHỤC</li>
+            <li class="menu-category main-category-highlight">KHU VỰC VÀ TRANG PHỤC</li>
             <li><a data-target="khu-vuc-cap-cuu" class="sidebar-link">KHU VỰC CẤP CỨU</a></li>
             <li><a data-target="khu-vuc-cam-giao-tranh" class="sidebar-link">KHU VỰC CẤM GIAO TRANH TẠI BV</a></li>
             <li><a data-target="khu-vuc-nghe-ban" class="sidebar-link">KHU VỰC NGHỀ BẨN</a></li>
             <li><a data-target="benh-nhan-cuop-tui-mu" class="sidebar-link">BỆNH NHÂN CƯỚP TÚI MÙ</a></li>
             <li><a data-target="nhan-dien-dong-phuc" class="sidebar-link">NHẬN DIỆN ĐỒNG PHỤC</a></li>
             
-            <li class="menu-category">CHÍNH SÁCH VÀ QUYỀN LỢI EMS</li>
+            <li class="menu-category main-category-highlight">CHÍNH SÁCH VÀ QUYỀN LỢI EMS</li>
             <li><a data-target="chinh-sach-ho-tro" class="sidebar-link">CHÍNH SÁCH HỖ TRỢ BV</a></li>
             <li><a data-target="quyen-loi-kpi" class="sidebar-link">QUYỀN LỢI VÀ KPI</a></li>
         </ul>
@@ -764,7 +775,7 @@
                 <ul>
                     <li>Vào Đàm 113 (nếu không có PD trực thì BS vào Phòng trực Cảnh Sát bên ứng dụng Discord). Thông báo rõ thân phận BS và thông tin tình huống cần giúp đỡ đầy đủ.</li>
                     <li>Trong trường hợp Đàm 113 không có PD trực, có thể nhờ Bác Sĩ Trưởng vào đàm 1 của PD để nhờ hỗ trợ.</li>
-                    <li>EMS được ưu tiên hỗ trợ khi vào đàm 113. EMS không được tự ý vào đàm từ 1-20 của PD.</li>
+                    <li>EMS được ưu tiên hỗ trợ when vào đàm 113. EMS không được tự ý vào đàm từ 1-20 của PD.</li>
                     <li>Nếu BS nào có hành vi không chuẩn mực với PD, PD có quyền không hỗ trợ BS ấy, ghi nhận thông tin và báo lên BQL BV để xử lý nghiêm.</li>
                 </ul>
             </section>
@@ -836,25 +847,36 @@
             </section>
         </div>
 
-        <!-- Tab: Quy định cư dân -->
+        <!-- Tab: Quy định cư dân (NỘI DUNG VÀ GIAO DIỆN ĐÃ ĐƯỢC CẢI TIẾN) -->
         <div id="quy-dinh-cu-dan-sec" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH CƯ DÂN</h2>
-                <div class="sub-card">
-                    <p>Đối với Cư Dân, CẤM TUYỆT ĐỐI những hành vi sau: 
-                    - Giết / Chặt Gáy / Đả thương / Gây rối dưới mọi hình thức với Bác Sĩ 
-                    - Cản trở việc cứu người của Bác Sĩ 
-                    - Cướp / Trộm và Sử dụng xe EMS 
-                    - Chạy xe vào khu vực BV 
-                    - Dùng lời lẽ / hành vi toxic, không đúng chuẩn mực với Bác Sĩ 
-                    - Giả mạo nhân viên EMS 
-                    - Vào đàm 911 của BV (trừ PD khi có tình huống cần giúp đỡ), Cư Dân có thể vào phòng trực Bác Sĩ tại ứng dụng đỉnh cao của GachaCity để được hỗ trợ. 
-                    - Gây rối / Ẩu đả với Cư Dân khác trong khuôn viên BV 
-                    - Đeo mặt nạ trong khuôn viên BV 
+                <h3>⚖️ Nội Quy Dành Cho Công Dân Thành Phố</h3>
+                
+                <div class="alert-box alert-danger">
+                    <strong>🚨 ĐỐI VỚI CƯ DÂN - NGHIÊM CẤM TUYỆT ĐỐI CÁC HÀNH VI SAU:</strong>
+                </div>
 
-                    Nếu Cư Dân ngất ở những nơi BS không thể tìm thấy, khó tiếp cận, hãy chụp hình vị trí và gửi vào kênh "hỗ-trợ-y-tế" để được giúp đỡ tốt nhất có thể. 
+                <ul>
+                    <li><strong>❌ Tấn công y tế:</strong> Giết, chặt gáy, đả thương hoặc gây rối dưới mọi hình thức đối với Bác Sĩ khi đang làm nhiệm vụ.</li>
+                    <li><strong>❌ Cản trở công vụ:</strong> Hành vi ngăn chặn, gây khó khăn trong quá trình Bác Sĩ cứu chữa người khác.</li>
+                    <li><strong>❌ Chiếm đoạt tài sản công:</strong> Cướp, trộm cắp và tự ý sử dụng xe chuyên dụng EMS.</li>
+                    <li><strong>❌ Vi phạm giao thông y tế:</strong> Chạy xe phương tiện cá nhân vào sâu trong khu vực khuôn viên nội bộ của Bệnh Viện.</li>
+                    <li><strong>❌ Thiếu chuẩn mực giao tiếp:</strong> Sử dụng lời lẽ toxic, xúc phạm hoặc có hành vi vô văn hóa đối với đội ngũ Bác Sĩ.</li>
+                    <li><strong>❌ Giả mạo nhân sự:</strong> Mạo danh là nhân viên hoặc cán bộ thuộc ban ngành EMS.</li>
+                    <li><strong>❌ Chiếm dụng đàm nội bộ:</strong> Tự ý kết nối vào tần số Đàm 911 của Bệnh viện (Ngoại trừ lực lượng PD trong tình huống khẩn cấp). Cư dân cần hỗ trợ vui lòng vào phòng trực Discord Gacha City.</li>
+                    <li><strong>❌ Gây mất an ninh:</strong> Gây rối, tổ chức ẩu đả với cư dân khác trong phạm vi bệnh viện quản lý.</li>
+                    <li><strong>❌ Ẩn danh sai quy định:</strong> Đeo mặt nạ che mặt trong khuôn viên và sảnh Bệnh Viện.</li>
+                </ul>
 
-                    Bất kỳ Cư Dân nào có hành vi sai phạm, các Bác Sĩ có quyền từ chối chữa trị đến khi giải quyết xong tình huống hoặc xử lý theo luật TP và BV.</p>
+                <div class="alert-box alert-warning">
+                    <strong>📌 QUY TRÌNH HỖ TRỢ KHẨN CẤP:</strong><br>
+                    Nếu cư dân gặp tình trạng ngất (kiệt sức) ở các địa hình phức tạp, hiểm trở mà Bác Sĩ khó tiếp cận hoặc không thể tìm thấy vị trí đơn ping, hãy chủ động chụp ảnh bodycam kèm định vị gửi trực tiếp vào kênh <strong>"hỗ-trợ-y-tế"</strong> để được cứu hộ kịp thời.
+                </div>
+
+                <div class="alert-box alert-danger">
+                    <strong>⚠️ QUYỀN KHƯỚC TỪ CỨU CHỮA:</strong><br>
+                    Bất kỳ cư dân nào cố tình vi phạm các điều cấm trên, Bác Sĩ hoàn toàn **có quyền từ chối cứu chữa** cho đến khi tình huống được giải quyết dứt điểm và sẽ bàn giao đối tượng cho PD xử lý theo luật Thành Phố.
                 </div>
             </section>
         </div>
