@@ -932,7 +932,7 @@
             </section>
         </div>
 
-        <div id="an-phat-cu-dan" class="tab-content">
+       <div id="an-phat-cu-dan" class="tab-content">
             <section>
                 <h2>ÁN PHẠT BỆNH VIỆN</h2>
                 <h3>🧾 BẢNG MỨC PHẠT CƯ DÂN</h3>
@@ -946,44 +946,72 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr style="background-color: #e2e8f0;">
+                                <td colspan="2" style="color: var(--primary-dark); font-weight: 800; font-size: 1.05rem;">🚫 I. Hành vi gây rối – bạo lực</td>
+                            </tr>
                             <tr>
-                                <td><strong>Ẩu đả trong/trước cổng bệnh viện</strong></td>
+                                <td><strong>Ẩu đả trong khu vực cấm giao tranh tại bệnh viện</strong></td>
                                 <td>10.000$</td>
                             </tr>
                             <tr>
-                                <td><strong>Tấn công Bác Sĩ / Nhân sự EMS</strong></td>
+                                <td><strong>Tấn công bác sĩ / nhân sự EMS</strong></td>
                                 <td>30.000$</td>
                             </tr>
                             <tr>
-                                <td><strong>Gây tử vong trong khu vực bệnh viện</strong></td>
+                                <td>
+                                    <strong>Gây tử vong trong khu vực bệnh viện</strong><br>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: normal;">(Tông xe, đánh nhau, gây hỗn loạn dẫn đến chết người...)</span>
+                                </td>
+                                <td>50.000$</td>
+                            </tr>
+
+                            <tr style="background-color: #e2e8f0;">
+                                <td colspan="2" style="color: var(--primary-dark); font-weight: 800; font-size: 1.05rem;">🚨 II. Hành vi làm gián đoạn công tác cứu hộ</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Ping (E) / gọi 911 sai mục đích</strong><br>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: normal;">Chỉ sử dụng khi cư dân đã ngất, cần cấp cứu thực sự.</span>
+                                </td>
+                                <td>5.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Giả danh người thuộc ban ngành / cơ quan chức năng</strong></td>
+                                <td>100.000$</td>
+                            </tr>
+
+                            <tr style="background-color: #e2e8f0;">
+                                <td colspan="2" style="color: var(--primary-dark); font-weight: 800; font-size: 1.05rem;">🚗 III. Vi phạm phương tiện & tài sản</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Điều khiển phương tiện vào khuôn viên bệnh viện</strong></td>
                                 <td>50.000$</td>
                             </tr>
                             <tr>
-                                <td><strong>Ping (E) / Gọi 911 sai mục đích</strong></td>
+                                <td><strong>Cướp, phá hoại hoặc chiếm dụng phương tiện EMS</strong></td>
+                                <td>100.000$</td>
+                            </tr>
+
+                            <tr style="background-color: #e2e8f0;">
+                                <td colspan="2" style="color: var(--primary-dark); font-weight: 800; font-size: 1.05rem;">🎭 IV. Vi phạm nội quy bệnh viện</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Đeo mặt nạ trong khu vực bệnh viện</strong></td>
                                 <td>5.000$</td>
                             </tr>
                             <tr>
-                                <td><strong>Giả danh nhân viên y tế / cơ quan chức năng</strong></td>
-                                <td>100.000$</td>
+                                <td><strong>Gây ồn ào, tụ tập mất trật tự</strong></td>
+                                <td>20.000$</td>
                             </tr>
                             <tr>
-                                <td><strong>Cướp, phá hoại hoặc chiếm dụng xe EMS</strong></td>
-                                <td>100.000$</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Đeo mặt nạ ẩn danh trong khu vực bệnh viện</strong></td>
-                                <td>5.000$</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Có hành vi toxic, xúc phạm, khiêu khích lời nói</strong></td>
-                                <td>5.000$ / mỗi lần</td>
+                                <td><strong>Có hành vi toxic, xúc phạm, khiêu khích bằng lời nói/hành động với Bác Sĩ</strong></td>
+                                <td>20.000$ / mỗi lần</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
         </div>
-
        <div id="thu-tuc" class="tab-content">
             <section>
                 <h2>THỦ TỤC HÀNH CHÍNH</h2>
@@ -1012,8 +1040,8 @@
                     <li>Không chỉnh sửa nội dung tin nhắn điểm danh sau khi đã gửi.</li>
                     <li>Không được phép trực bù ca hoặc điểm danh dồn nhiều ca trực vào chung một tin nhắn.</li>
                     <li>Nghiêm cấm hoàn toàn hành vi điểm danh hộ hoặc khống ca trực cho người không có mặt làm việc.</li>
-                    <li>Các Bác sĩ không ngồi trong phòng trực Discord làm việc ➡️ Không được quyền điểm danh đơn ca trực đó.</li>
-                    <li>Tin nhắn điểm danh ca trực phải do chính BST ca đó hoặc Bác sĩ quản ca thực hiện gửi lên.</li>
+                    <li>Các Bác sĩ sẽ không được điểm danh ca trực đó nếu không ngồi ở "<a href="https://discord.com/channels/1300050828765302784/1507732874814689331" target="_blank" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">💊Phòng Trực Bác Sĩ 💊</a> (trừ lí do chính đáng).</li>
+                    <li>Tin nhắn điểm danh ca trực phải do chính Bác Sĩ Trưởng ca đó hoặc Bác sĩ quản ca thực hiện gửi lên.</li>
                     <li>Hạn chót gửi điểm danh lên hệ thống là 24 giờ kể từ khi ca trực đó kết thúc, quá hạn ca trực sẽ bị hủy bỏ.</li>
                 </ul>
             </section>
