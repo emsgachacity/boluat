@@ -93,17 +93,6 @@
             transition: transform 0.3s ease;
         }
 
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-        }
-
         .sidebar-brand {
             display: flex;
             align-items: center;
@@ -148,7 +137,6 @@
             text-transform: uppercase;
         }
 
-        /* Class làm nổi bật mục chính không có link bấm */
         .main-category-highlight {
             font-size: 0.92rem !important;
             font-weight: 800 !important;
@@ -240,14 +228,6 @@
             overflow: hidden;
         }
 
-        .header-banner::before {
-            content: "";
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background: linear-gradient(45deg, transparent 60%, rgba(255,255,255,0.05) 60%);
-            pointer-events: none;
-        }
-
         .header-banner h1 {
             font-size: 2.4rem;
             font-weight: 900;
@@ -301,7 +281,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* TIÊU ĐỀ KHỐI NỀN GRADIENT */
         section h2 {
             background: linear-gradient(135deg, #4c0099 0%, var(--primary-color) 100%);
             color: #ffffff;
@@ -356,7 +335,6 @@
             color: #065f46;
         }
 
-        /* ĐỊNH DẠNG VĂN BẢN VÀ DANH SÁCH */
         p {
             font-size: 1.02rem;
             color: var(--text-main);
@@ -375,11 +353,6 @@
             font-size: 1rem;
         }
 
-        li strong {
-            color: #0f172a;
-            font-weight: 600;
-        }
-
         .list-unstyled {
             list-style: none;
             padding-left: 0;
@@ -393,7 +366,6 @@
             border-left: 3px solid #cbd5e1;
         }
 
-        /* TỐI ƯU BẢNG TRA CỨU ÁN PHẠT */
         .table-responsive {
             overflow-x: auto;
             margin: 20px 0;
@@ -425,15 +397,10 @@
             font-size: 0.98rem;
         }
 
-        .penalty-table tr:last-child td {
-            border-bottom: none;
-        }
-
         .penalty-table tr:hover {
             background: #f8fafc;
         }
 
-        /* MEDIA DISPLAY */
         .media-container {
             background-color: #f8fafc;
             border: 1px solid var(--border-color);
@@ -441,7 +408,6 @@
             padding: 20px;
             margin: 25px 0;
             text-align: center;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .media-img {
@@ -451,7 +417,6 @@
             height: auto;
             margin: 0 auto 15px auto;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .media-caption {
@@ -462,21 +427,11 @@
             background: #f3e8ff; 
             border-radius: 8px;
             border-left: 5px solid var(--primary-color); 
-            font-weight: 700; 
             text-align: left;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .media-caption.text-danger-strong {
-            color: #b30000;
-            background: #fee2e2; 
-            border-left-color: var(--accent-color);
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-        }
-
-        /* UNIFORMS SECTION */
         .uniform-gender-block {
             background: #f8fafc;
             border-radius: 12px;
@@ -491,7 +446,6 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .uniform-title {
@@ -503,16 +457,6 @@
             padding-bottom: 6px;
         }
 
-        .uniform-details li {
-            padding: 4px 0;
-            font-size: 0.95rem;
-            border-bottom: 1px dashed #f1f5f9;
-        }
-        
-        .uniform-details li:last-child {
-            border-bottom: none;
-        }
-
         .uniform-placeholder-text {
             display: block;
             padding: 15px;
@@ -522,15 +466,11 @@
             font-style: italic;
             border-radius: 6px;
             margin-bottom: 12px;
-            font-size: 0.9rem;
         }
 
-        /* RESPONSIVE DESIGN - TỐI ƯU CHO ĐIỆN THOẠI */
         @media (max-width: 1024px) {
             body { flex-direction: column; }
-            
             .mobile-header { display: flex; }
-            
             .sidebar { 
                 transform: translateX(-100%); 
                 height: 100vh; 
@@ -540,28 +480,19 @@
                 width: var(--sidebar-width);
                 z-index: 115;
             }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
+            .sidebar.open { transform: translateX(0); }
             .main-content { 
                 width: 100%; 
                 margin-left: 0; 
                 padding: 85px 15px 25px 15px;
             }
-
-            .sidebar-menu li a:hover { transform: none; padding-left: 20px !important; }
             section { padding: 25px 15px; }
             section h2 { margin: -25px -15px 20px -15px; padding: 15px 20px; font-size: 1.15rem; }
-            .header-banner { padding: 25px 20px; }
-            .header-banner h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Mobile Header (Chỉ hiện trên điện thoại) -->
     <header class="mobile-header">
         <button class="menu-toggle" id="menuBtn">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -569,10 +500,8 @@
         <div class="mobile-title">Luật Gacha City EMS</div>
     </header>
 
-    <!-- Màn mờ che phía sau khi mở menu điện thoại -->
     <div class="sidebar-overlay" id="overlay"></div>
 
-    <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <img src="https://lh3.googleusercontent.com/d/1qAEvBWzZvvgOY9dbXzgygQ8ngOgtISDx" alt="Gacha City EMS Logo" class="sidebar-logo">
@@ -617,10 +546,8 @@
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main class="main-content">
         
-        <!-- Tab: HOME -->
         <div id="home-tab" class="tab-content active-tab">
             <div class="header-banner">
                 <h1>BỘ LUẬT BỆNH VIỆN GACHA CITY</h1>
@@ -630,7 +557,6 @@
             </div>
         </div>
 
-        <!-- Tab: Ngoài ca trực -->
         <div id="ngoai-ca-truc" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BỆNH VIỆN</h2>
@@ -658,7 +584,6 @@
             </section>
         </div>
 
-        <!-- Tab: Trước và trong ca trực -->
         <div id="truoc-trong-ca" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BỆNH VIỆN</h2>
@@ -704,7 +629,6 @@
             </section>
         </div>
 
-        <!-- Tab: Bác sĩ bẩn -->
         <div id="bac-si-ban" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BỆNH VIỆN</h2>
@@ -736,7 +660,6 @@
             </section>
         </div>
 
-        <!-- Tab: Nợ hóa đơn -->
         <div id="no-hoa-don" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BÁC SĨ</h2>
@@ -757,7 +680,6 @@
             </section>
         </div>
 
-        <!-- Tab: Đối với PD -->
         <div id="doi-voi-pd" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BÁC SĨ</h2>
@@ -781,7 +703,6 @@
             </section>
         </div>
 
-        <!-- Tab: Giao tiếp -->
         <div id="giao-tiep" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BÁC SĨ</h2>
@@ -807,7 +728,6 @@
             </section>
         </div>
 
-        <!-- Tab: Ấu đả vùng bẩn -->
         <div id="au-da-vung-ban" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BÁC SĨ</h2>
@@ -827,7 +747,6 @@
             </section>
         </div>
 
-        <!-- Tab: Khử khuẩn -->
         <div id="khu-khuan" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH BÁC SĨ</h2>
@@ -847,7 +766,6 @@
             </section>
         </div>
 
-        <!-- Tab: Quy định cư dân (NỘI DUNG VÀ GIAO DIỆN ĐÃ ĐƯỢC CẢI TIẾN) -->
         <div id="quy-dinh-cu-dan-sec" class="tab-content">
             <section>
                 <h2>QUY ĐỊNH CƯ DÂN</h2>
@@ -881,7 +799,6 @@
             </section>
         </div>
 
-        <!-- Tab: Án phạt bác sĩ -->
         <div id="an-phat-bac-si" class="tab-content">
             <section>
                 <h2>ÁN PHẠT BỆNH VIỆN</h2>
@@ -911,6 +828,10 @@
                                 <td>Sa thải</td>
                             </tr>
                             <tr>
+                                <td><strong>Vứt phương tiện EMS bừa bãi sau khi sử dụng</strong></td>
+                                <td colspan="3" style="font-weight: bold; color: var(--warning-color);">10.000$ (Áp dụng toàn khu vực)</td>
+                            </tr>
+                            <tr>
                                 <td><strong>Sử dụng xe EMS sai mục đích</strong></td>
                                 <td>20.000$</td>
                                 <td>50.000$</td>
@@ -923,7 +844,21 @@
                                 <td>100.000$ / Sa thải</td>
                             </tr>
                             <tr>
-                                <td><strong>Treo Duty, không tương tác</strong></td>
+                                <td><strong>Xin vắng OC nhưng vẫn xuất hiện trong thành phố</strong></td>
+                                <td colspan="3" style="font-style: italic; color: var(--text-muted);">Xử lý như vắng ca trực không phép</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Out ngành khi chưa trực đủ thời gian 7 ngày thử thách</strong></td>
+                                <td colspan="3" style="font-weight: bold; color: var(--accent-color);">200.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sai luật làm bẩn cơ bản</strong></td>
+                                <td>10.000$</td>
+                                <td>20.000$</td>
+                                <td>50.000$ / Sa thải</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Treo ON DUTY, không tương tác / nhận đơn</strong></td>
                                 <td>50.000$</td>
                                 <td>100.000$</td>
                                 <td>Sa thải</td>
@@ -935,10 +870,46 @@
                                 <td>Sa thải</td>
                             </tr>
                             <tr>
+                                <td><strong>Sử dụng chức năng bác sĩ khi không trong ca trực</strong></td>
+                                <td>10.000$</td>
+                                <td>20.000$</td>
+                                <td>50.000$</td>
+                            </tr>
+                            <tr>
                                 <td><strong>Chặt gáy đồng nghiệp</strong></td>
                                 <td>100.000$</td>
                                 <td>300.000$ + Hạ chức</td>
                                 <td>500.000$ + Sa thải</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lạm quyền</strong></td>
+                                <td>20.000$</td>
+                                <td>50.000$</td>
+                                <td>100.000$ + Hạ chức / Sa thải</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sử dụng đồ ngành sai mục đích</strong></td>
+                                <td colspan="3">Thu hồi 7 ngày + 100.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tàng trữ đồ ban ngành</strong> <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;"><br>(Mang theo ngoài ca trực, cất ngoài không phải tủ đồ BV)</span></td>
+                                <td colspan="3">Thu hồi 14 - 30 ngày + 500.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Đánh nhau, làm việc riêng gây ảnh hưởng công việc</strong></td>
+                                <td colspan="3">50.000$ / Hạ chức</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Khiêu khích, gây hấn, dùng lời lẽ không chuẩn mực</strong></td>
+                                <td colspan="3">50.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mặc sai đồng phục</strong></td>
+                                <td colspan="3">5.000$</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vào đàm từ 1–20 khi chưa được QLPD cho phép</strong></td>
+                                <td colspan="3">30.000$</td>
                             </tr>
                         </tbody>
                     </table>
@@ -950,10 +921,16 @@
                     - Vắng ca trực không phép 2 ngày liên tiếp.<br>
                     - Hành vi Bác Sĩ Bẩn (BSB) trục lợi/tuồn đồ/tuồn thông tin nội bộ.
                 </div>
+
+                <div class="alert-box alert-warning">
+                    <strong>📌 Quy định chung:</strong><br>
+                    - Tùy theo mức độ vi phạm, Ban Giám đốc có thể tăng nặng hình thức xử lý.<br>
+                    - Các hành vi nghiêm trọng có thể hạ chức hoặc sa thải ngay lập tức.<br>
+                    - Mọi bác sĩ cần tự giác tuân thủ để giữ gìn hình ảnh bệnh viện.
+                </div>
             </section>
         </div>
 
-        <!-- Tab: Án phạt cư dân -->
         <div id="an-phat-cu-dan" class="tab-content">
             <section>
                 <h2>ÁN PHẠT BỆNH VIỆN</h2>
@@ -1006,7 +983,6 @@
             </section>
         </div>
 
-        <!-- Tab: Thủ tục hành chính -->
         <div id="thu-tuc" class="tab-content">
             <section>
                 <h2>THỦ TỤC HÀNH CHÍNH</h2>
@@ -1026,7 +1002,6 @@
             </section>
         </div>
 
-        <!-- Tab: Quy cách điểm danh -->
         <div id="diem-danh-sec" class="tab-content">
             <section>
                 <h2>QUY CÁCH ĐIỂM DANH</h2>
@@ -1043,7 +1018,6 @@
             </section>
         </div>
 
-        <!-- Tab: Khu vực cấp cứu -->
         <div id="khu-vuc-cap-cuu" class="tab-content">
             <section>
                 <h2>KHU VỰC VÀ TRANG PHỤC</h2>
@@ -1061,7 +1035,6 @@
             </section>
         </div>
 
-        <!-- Tab: Khu vực cấm giao tranh -->
         <div id="khu-vuc-cam-giao-tranh" class="tab-content">
             <section>
                 <h2>KHU VỰC VÀ TRANG PHỤC</h2>
@@ -1083,7 +1056,6 @@
             </section>
         </div>
 
-        <!-- Tab: Khu vực nghề bẩn -->
         <div id="khu-vuc-nghe-ban" class="tab-content">
             <section>
                 <h2>KHU VỰC VÀ TRANG PHỤC</h2>
@@ -1106,7 +1078,6 @@
             </section>
         </div>
 
-        <!-- Tab: Bệnh nhân cướp túi mù -->
         <div id="benh-nhan-cuop-tui-mu" class="tab-content">
             <section>
                 <h2>KHU VỰC VÀ TRANG PHỤC</h2>
@@ -1123,7 +1094,6 @@
             </section>
         </div>
 
-        <!-- Tab: Nhận diện đồng phục -->
         <div id="nhan-dien-dong-phuc" class="tab-content">
             <section>
                 <h2>KHU VỰC VÀ TRANG PHỤC</h2>
@@ -1259,7 +1229,6 @@
             </section>
         </div>
 
-        <!-- Tab: Chính sách hỗ trợ -->
         <div id="chinh-sach-ho-tro" class="tab-content">
             <section>
                 <h2>CHÍNH SÁCH VÀ QUYỀN LỢI EMS</h2>
@@ -1289,7 +1258,6 @@
             </section>
         </div>
 
-        <!-- Tab: Quyền lợi KPI -->
         <div id="quyen-loi-kpi" class="tab-content">
             <section>
                 <h2>CHÍNH SÁCH VÀ QUYỀN LỢI EMS</h2>
@@ -1345,7 +1313,6 @@
 
     </main>
 
-    <!-- INTERACTION SCRIPTS -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const links = document.querySelectorAll(".sidebar-link");
@@ -1372,7 +1339,6 @@
                     
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                    // Trên điện thoại, tự động đóng menu lại sau khi chọn mục xong
                     if (window.innerWidth <= 1024) {
                         sidebar.classList.remove("open");
                         overlay.classList.remove("show");
